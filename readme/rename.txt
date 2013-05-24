@@ -1,0 +1,5 @@
+handleModeCorners     -> handleExit
+Game.Font             -> Font
+Game.GUI              -> GUI
+LevelMode             -> FastMode
+PuzzleMode            -> SlowMode

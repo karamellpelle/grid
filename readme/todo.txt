@@ -1,0 +1,17 @@
+* fix loading and unloading of resources
+* look at "fixme"/"todo"/"note"/etc. in all files (find . | xargs grep -l ...)
+* instead of populating a fixed size array, in File.IOS, peek the values as done in MEnv.Players.IOS
+* do not use types Integer and Double (unless necessary)
+* try use the commandline program 'xcodebuild' instead of building from XCode
+* pause all Clocks when Foreground -> Background?
+* Clock's does not work with high framerate (CLOCK_UPDATE_DT inside IOSTick.m)
+* some widgets does not work with high framerate, since (tick' - tick == 0), so check for empty diff
+* respond to low memory warnings, AppDelegate::applicationDidReceiveMemoryWarning?
+* on release build, compile without safety (like divide by zero, bounds check on arrays, blackholes, ...). 
+  question: is this good practice? in theory this would be good, but probably not in real projects, since we should assume that
+            bugs are present in every project.
+* let XCode copy the target of the symlink 'data' instead of the actual symlink (this problem was introduced by a XCode update)
+* the game relies on a type 'Tick' defined in MEnv as Double (on iOS), but this type should instead be defined in Game, since the type Tick inside MEnv should be able to vary on each platform
+* the matrices 'view3D' and 'model3D' should not be separated, instead use one matrix 'modelview'
+* save GL memory: texture for Face has the same shape as screen (and power of two!) 
+* use .ogg/.mp3 instead of .caf (this should probably just work)

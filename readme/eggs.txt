@@ -1,0 +1,8 @@
+IDEAS
+* use the SequenceEater to change how Scene is presented. for example
+  ... -> Right                        => Scene effect 0
+  ... -> Right -> Right               => Scene effect 1
+  ... -> Right -> Right -> Right      => Scene effect 2 
+  etc.
+
+* use the SequenceEater to change GUI style.

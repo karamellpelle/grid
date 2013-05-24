@@ -1,0 +1,2 @@
+echo "compiling it..."
+ghc -DGRID_PLATFORM_GLFW -DGRID_FANCY -XCPP "$@" -o ../dist/design --make Main.hs -outputdir /tmp

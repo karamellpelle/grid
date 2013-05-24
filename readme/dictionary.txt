@@ -1,0 +1,7 @@
+Shape           : describing rectangular shape with wth and hth, relative to greatest of them (relative to square (1, 1))
+Face            : a state of RunWorld
+Turn            : view direction in xyz-plane
+Dir             : direction in xyz-plane
+View            : tuple (a, b, c) describing camera pointing at origo. a is angle in xz-plane, b is angle against xz plane, c is distance from origo
+Scene           : object representing output of game
+Node            : point in ZZ^3

@@ -1,0 +1,12 @@
+#!/bin/sh
+# ghc with debug configuration
+
+BUILD_PROF=""
+
+echo "ghc-compile... (debug)"
+echo "profiling:        $BUILD_PROF"
+./ghc_build_ "$@" -DDEBUG -DGRID_SAFE $BUILD_PROF
+
+
+
+

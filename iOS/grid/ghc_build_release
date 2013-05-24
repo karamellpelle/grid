@@ -1,0 +1,12 @@
+#!/bin/sh
+# ghc with release configuration
+
+BUILD_OPTIM=""
+
+echo "ghc-compile... (release)"
+echo "optimization:     $BUILD_OPTIM"
+./ghc_build_ "$@" $BUILD_OPTIM
+
+
+
+

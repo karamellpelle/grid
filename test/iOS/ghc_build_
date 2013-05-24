@@ -1,0 +1,51 @@
+#!/bin/sh
+# compile Haskell static library, from XCode
+source ~/install/ghc-ios/env.sh
+
+GHC_IOS_BUILD_DIR=/Users/karamellpelle/install/ghc-ios
+GHC_IOS_DIR=/usr/local/ghc-ios
+GHC_IOS_BIN=$GHC_IOS_DIR/bin
+GHC_IOS_LIB=$GHC_IOS_DIR/lib
+export PATH="$GHC_IOS_BIN:$PATH"
+
+# XCode variables?
+export SOURCE_ROOT=/Users/karamellpelle/Documents/grid/iOS
+export TARGET_NAME=grid
+export TARGET_BUILD_DIR=/tmp
+TARGET_PATH=$SOURCE_ROOT/$TARGET_NAME/
+DIST=$TARGET_BUILD_DIR/haskell
+
+#echo "platform is: $PLATFORM_NAME"
+#echo "action is:   $ACTION"
+#echo "dist is:     $DIST"
+
+
+BUILD_WARNINGS="-Wall -fno-warn-name-shadowing -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-do-bind -fno-warn-missing-signatures -fno-warn-unused-imports"
+
+#BUILD_STYLE="-DGRID_STYLE_PLAIN"
+BUILD_STYLE="-DGRID_STYLE_FANCY"
+BUILD_PLATFORM="-DGRID_PLATFORM_IOS"
+# valid _TEST:  GRID_TEST_NO_SCENE, 
+#               GRID_TEST_FOR,
+#               GRID_TEST_ROT,
+#               GRID_TEST_COLORFY, 
+#               GRID_TEST_OSC0,
+#               GRID_TEST_OSC1,
+#               GRID_TEST_OSC2,
+#               GRID_TEST_PULSE0
+#               GRID_TEST_PULSE1
+GRID_TEST="-DGRID_TEST -DGRID_TEST_PULSE0 -DGRID_TEST_COLORFY"
+
+mkdir -p $DIST
+cd haskell
+pwd
+echo "style:            $BUILD_STYLE"
+echo "platform:         $BUILD_PLATFORM"
+echo "test:             $GRID_TEST"
+arm-apple-darwin10-ghc "$@" $BUILD_WARNINGS -XCPP $BUILD_STYLE $BUILD_PLATFORM $GRID_TEST -outputdir $DIST -threaded --make Main.hs -o $TARGET_PATH/Main || exit 1
+
+
+
+
+
+

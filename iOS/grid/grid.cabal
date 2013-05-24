@@ -1,0 +1,188 @@
+-- this cabal file is old and does not work
+Name:                 grid
+Version:              0.0
+Cabal-Version:        >= 1.6
+License:              AllRightReserved
+--License-File:         license.txt
+Author:               Carl Joachim Svenn
+Maintainer:           karamellpelle@hotmail.com
+Category:             Game
+Synopsis:             iOS game
+Description:          iOS game
+Build-Type:           Simple
+Data-Dir:             data
+Data-Files:           -- ignore, use XCode 
+Extra-Source-Files:   credits.txt
+                      readme.txt
+                      todo.txt
+                      --tools/*
+
+-- (flags are specified to 'configure' as -flags="Fancy -Debug" (- is negate))
+Flag Debug
+  Description:        Enable debug support
+  Default:            False
+
+Flag Fancy
+  Description:        Fancy output
+  Default:            True
+
+
+
+Executable grid
+  Build-Depends:      base, mtl, parsec
+
+  Hs-Source-Dirs:     haskell
+
+  Extensions:         CPP
+
+  -- (put language extensions in 'Extensions')
+  GHC-Options:        -Wall
+                      -fno-warn-name-shadowing
+                      -fno-warn-unused-matches
+                      -fno-warn-unused-binds
+                      -fno-warn-unused-do-bind
+
+  CPP-Options:        -DGRID_PLATFORM_IOS
+  if flag(Debug)
+  {
+  GHC-Options:        -DDEBUG
+  }
+  if flag(Fancy)
+  {
+  GHC-Options:        -DGRID_FANCY
+  }
+
+  GHC-Prof-Options:   -prof
+                      -auto-all
+
+  Main-Is:            Main.hs
+  Other-Modules:      Game
+                      Game.Do
+                      Game.GUI.Widget
+                      Game.GUI.Widget.ButtonWidget
+                      Game.GUI.Widget.ChildWidget
+                      Game.GUI.Widget.FillWidget
+                      Game.GUI.Widget.LabelWidget
+                      Game.GUI.Widget.ReshapeWidget
+                      Game.GUI.Widget.ScreenWidget
+                      Game.GUI.Widget.ScrollWidget
+                      Game.GUI.Widget.SpaceWidget
+                      Game.GUI
+                      Game.Grid.Do
+                      Game.Grid.GridWorld.Camera
+                      Game.Grid.GridWorld.Constructs
+                      Game.Grid.GridWorld.Helpers
+                      Game.Grid.GridWorld.Node
+                      Game.Grid.GridWorld.Path
+                      Game.Grid.GridWorld.Segment
+                      Game.Grid.GridWorld.Turn
+                      Game.Grid.GridWorld
+                      Game.Grid.Modify
+                      Game.Grid.Output.Fancy
+                      Game.Grid.Output.Plain
+                      Game.Grid.Output
+                      Game.Grid.StepDT
+                      Game.Helpers.Friends
+                      Game.Helpers.Shade
+                      Game.Helpers
+                      Game.Iteration
+                      Game.LevelMode.Do
+                      Game.LevelMode.Grid.Do
+                      Game.LevelMode.Iteration
+                      Game.LevelMode.LevelDef.LoadSave
+                      Game.LevelMode.LevelDef.Constructs
+                      Game.LevelMode.LevelDef
+                      Game.LevelMode.LevelWorld.Constructs
+                      Game.LevelMode.LevelWorld.Helpers
+                      Game.LevelMode.LevelWorld.LevelPath
+                      Game.LevelMode.LevelWorld.LoadSave
+                      Game.LevelMode.LevelWorld.Physical
+                      Game.LevelMode.LevelWorld
+                      Game.LevelMode.Output.Fancy
+                      Game.LevelMode.Output.Plain
+                      Game.LevelMode.Output
+                      Game.MEnv
+                      Game.MemoryMode.Do
+                      Game.MemoryMode.Grid.Do
+                      Game.MemoryMode.Iteration
+                      Game.MemoryMode.MemoryWorld.Constructs
+                      Game.MemoryMode.MemoryWorld.Helpers
+                      Game.MemoryMode.MemoryWorld
+                      Game.MemoryMode.Output.Fancy
+                      Game.MemoryMode.Output.Plain
+                      Game.MemoryMode.Output
+                      Game.Modify
+                      Game.PuzzleMode.Do
+                      Game.PuzzleMode.Grid.Do
+                      Game.PuzzleMode.Iteration
+                      Game.PuzzleMode.Output.Fancy
+                      Game.PuzzleMode.Output.Plain
+                      Game.PuzzleMode.Output
+                      Game.PuzzleMode.PuzzleWorld.LoadSave
+                      Game.PuzzleMode.PuzzleWorld
+                      Game.Resource
+                      Game.Run.Do
+                      Game.Run.EasterEgg.Button
+                      Game.Run.EasterEgg.Helpers
+                      Game.Run.EasterEgg.SequenceEater
+                      Game.Run.EasterEgg
+                      Game.Run.Grid.Do
+                      Game.Run.Iteration
+                      Game.Run.Mode.Fancy
+                      Game.Run.Mode.Plain
+                      Game.Run.Mode
+                      Game.Run.Output.Fancy
+                      Game.Run.Output.Plain
+                      Game.Run.Output
+                      Game.Run.RunWorld.Helpers
+                      Game.Run.RunWorld.LoadSave
+                      Game.Run.RunWorld.Message.Helpers
+                      Game.Run.RunWorld.Message
+                      Game.Run.RunWorld.Setup
+                      Game.Run.RunWorld
+                      Game.Step
+                      Game.StepDT
+                      Game.Values
+                      Game.World
+                      LoadM
+                      MEnv.Env.ForeignObject.IOS
+                      MEnv.Env.ForeignObject
+                      MEnv.Env.FriendsObject.IOS
+                      MEnv.Env.FriendsObject
+                      MEnv.Env.KeysObject.IOS
+                      MEnv.Env.KeysObject
+                      MEnv.Env.PlatformObject.IOS
+                      MEnv.Env.PlatformObject
+                      MEnv.Env.ScreenObject.IOS
+                      MEnv.Env.ScreenObject
+                      MEnv.Env.SoundObject.IOS
+                      MEnv.Env.SoundObject
+                      MEnv.Env.TickObject.IOS
+                      MEnv.Env.TickObject
+                      MEnv.Env
+                      MEnv.Foreign.IOS
+                      MEnv.Foreign
+                      MEnv.Friends.IOS
+                      MEnv.Friends
+                      MEnv.Helpers
+                      MEnv.Keys.IOS
+                      MEnv.Keys
+                      MEnv.Platform.IOS
+                      MEnv.Platform
+                      MEnv.Resource
+                      MEnv.Screen.IOS
+                      MEnv.Screen
+                      MEnv.Sound.IOS
+                      MEnv.Sound
+                      MEnv.Tick.IOS
+                      MEnv.Tick
+                      MEnv
+                      MyPrelude
+                      OpenGL.IOS
+                      OpenGL.IOS.Raw.Types
+                      OpenGL.IOS.Raw.Values
+                      OpenGL.IOS.Raw
+                      OpenGL.Linear
+                      OpenGL
+                      Util.Binary
+

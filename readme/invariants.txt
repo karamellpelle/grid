@@ -1,0 +1,21 @@
+this file defines GL invariants to be used. OpenGL doesn't like too much state updates.
+
+for both 2D and 3D:
+  glClearColor:           0 0 0 0
+  GL_STENCIL_TEST:        Disabled
+  glDepthMask:            GL_TRUE
+  GL_DEPTH_FUNC:          gl_LEQUAL   -- maybe gl_LESS instead (be aware of round-off errors)
+  GL_BLENDING:            Enabled
+  glBlendFuncSeparate:    GL_ONE gl_ONE_MINUS_SRC_ALPHA
+                          GL_ONE GL_ONE_MINUS_SRC_ALPHA
+  glDither                Disabled
+
+for 3D:
+  GL_DEPTH_TEST:          Enabled
+  GL_CULL_FACE:           Enabled
+
+for 2D:
+  GL_DEPTH_TEST:          Undefined
+  GL_CULL_FACE:           Disabled
+                
+
