@@ -49,7 +49,7 @@ Easter eggs are fun! The Konami sequence left -> left -> right -> right -> up ->
 Building on iOS
 ----------------
 
-In the folder `iOS/grid`, build the Haskell code into an archive `Main.a`:  
+In the folder `iOS/grid`, build the Haskell code into an archive `iOS/grid/Main.a`:  
 
     $ cd iOS/grid
     $ ./ghc_build_debug
