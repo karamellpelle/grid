@@ -21,6 +21,6 @@ module MEnv.Sound.GLFW
 
   ) where
 
-import MEnv
-import MEnv.Env
+import MEnv.GLFW
 
+-- volume, etc.

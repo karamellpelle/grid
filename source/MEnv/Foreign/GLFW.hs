@@ -18,27 +18,22 @@
 --
 module MEnv.Foreign.GLFW
   (
-    foreignBegin,
-    foreignEnd,
-    foreignHandleEnd,
+    foreignBeginForeign,
+    foreignHandleForeignEnd,
 
   ) where
 
 import MEnv
 
 
-foreignBegin :: MEnv res ()
-foreignBegin = 
-    return ()
+foreignBeginForeign :: MEnv res ()
+foreignBeginForeign = 
+    putStrLn "GLFW.foreignBeginForeign"
 
 
-foreignEnd :: MEnv res ()
-foreignEnd =
-    return ()
 
-
-foreignHandleEnd :: a -> a -> MEnv res a
-foreignHandleEnd a a' =
-    return a
+foreignHandleForeignEnd :: a -> a -> MEnv res a
+foreignHandleForeignEnd a a' =
+    putStrLn "GLFW.foreignHandleForeignEnd"
 
 

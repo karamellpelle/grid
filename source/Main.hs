@@ -23,17 +23,20 @@ module Main
   ) where
 
 import MyPrelude
+import File
+import Game
 
-#ifdef GRID_PLATFORM_IOS
-import Main.IOS
-#endif
-#ifdef GRID_PLATFORM_GLFW
-import Main.GLFW
-#endif
+import Game
+import Game.Run
+import Game.Run.Helpers.Make
+import Game.Run.Iteration
 
-#ifdef DEBUG
 import OpenGL
 import OpenGL.Helpers
+import OpenAL
+import OpenAL.Helpers
+
+#ifdef DEBUG
 import Foreign
 #endif
 
@@ -50,14 +53,92 @@ main = do
     assert (sizeOf (undefined :: GLfloat) == 4)   $ "sizeof GLfloat == 4"
 #endif
 
-    -- platform main
-    main'
+
+#ifdef GRID_PLATFORM_IOS
+import Main.IOS
+#endif
+#ifdef GRID_PLATFORM_GLFW
+import Main.GLFW
+#endif
+
+    -- define MEnv
+    let init = Init
+               {
+#ifdef GRID_PLATFORM_IOS
+                  initScreenOrientations = [  OrientationLandscapeLeft, 
+                                              OrientationLandscapeRight ],
+                  initScreenMultisample = 4,
+                  initScreenRate = 0,
+                  initSoundSampleRate = 22050,
+                  initKeysAcclGyroRate = 0.1
+#endif
+#ifdef GRID_PLATFORM_GLFW
+
+#endif
+               }
+   
+
+    -- run MEnv!
+    let a = ()
+#ifdef GRID_PLATFORM_IOS
+    c <- runMEnvIOS init loadGameData unloadGameData 
+                    begin iterate end a
+#endif
+#ifdef GRID_PLATFORM_GLFW
+    c <- runMEnvGLFW init loadGameData unloadGameData 
+                     begin iterate end a
+#endif
+
+    return ()
+
+    where
+      begin _ = do
+          
+          -- setup OpenGL and OpenAL
+          io $ do
+              -- OpenGL --
+              -- (see readme/invariants.txt for GL state)
+              glClearColor 0 0 0 0
+              glDisable gl_STENCIL_TEST
+              glClearStencil 0
+              
+              -- lets use premultiplied colors to represent colors, as default
+              glEnable gl_BLEND
+              glBlendEquationSeparate gl_FUNC_ADD 
+                                      gl_FUNC_ADD
+              glBlendFuncSeparate gl_ONE gl_ONE_MINUS_SRC_ALPHA
+                                  gl_ONE gl_ONE_MINUS_SRC_ALPHA
+              
+              glDepthMask gl_TRUE
+              glDepthFunc gl_LEQUAL
+              glEnable gl_DEPTH_TEST
+              glDisable gl_DITHER -- ??
+
+              -- OpenAL --
+              alDistanceModel al_INVERSE_DISTANCE
+              -- doppler, speed of sound, ...
 
 
+          -- we want to play this game with a local player (if possible)
+          playersAuthenticateLocalPlayer
+
+          -- if first run, create folders and files for dynamic data
+          createDynamicData
+
+          -- load the RunWorld not assocciated with any local player ("empty")
+          path <- fileRunWorldEmpty
+          run <- loadRunWorld path
+         
+          -- play game
+          return (run, (), [iterationBegin])
 
 
+      iterate (a, b, stack) = do
+          iterateABStack a b stack
 
 
+      end (run, b, stack) = do
+          saveRunWorld run
 
 
 

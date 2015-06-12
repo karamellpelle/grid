@@ -16,9 +16,9 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module OpenGL.IOS.Values where
+module OpenGL.ES2.Values where
 
-import OpenGL.IOS.Types
+import OpenGL.ES2.Types
 
 
 gl_DEPTH_BUFFER_BIT :: GLbitfield

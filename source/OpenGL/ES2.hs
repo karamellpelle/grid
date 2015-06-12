@@ -17,9 +17,9 @@
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
 {-# LANGUAGE ForeignFunctionInterface #-}
-module OpenGL.IOS where
+module OpenGL.ES2 where
     
-import OpenGL.IOS.Types
+import OpenGL.ES2.Types
 import Foreign.Ptr
 import Foreign.C
 

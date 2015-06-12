@@ -18,20 +18,34 @@
 --
 module MEnv.Resource
   (
-#ifdef GRID_PLATFORM_IOS
-    module MEnv.Resource.IOS,
-#endif
-#ifdef GRID_PLATFORM_GLFW
-    module MEnv.Resource.GLFW,
-#endif
+    resourceGet,
+    resourceModify,
+    resourceModifyIO,
 
   ) where
 
 
-#ifdef GRID_PLATFORM_IOS
-import MEnv.Resource.IOS
-#endif
-#ifdef GRID_PLATFORM_GLFW
-import MEnv.Resource.GLFW
-#endif
+import MEnv.IOS
+import qualified Control.Monad.State as MState
+
+
+-- | get resource
+resourceGet :: MEnv res res
+resourceGet =
+    MState.get
+
+
+-- | modify resource
+resourceModify :: (res -> res) -> MEnv res ()
+resourceModify =
+    MState.modify
+
+
+-- | modify resource inside IO
+resourceModifyIO :: (res -> IO res) -> MEnv res ()
+resourceModifyIO f = do
+    env <- MState.get
+    env' <- MState.liftIO $ f $ env
+    MState.put $ env'
+
 

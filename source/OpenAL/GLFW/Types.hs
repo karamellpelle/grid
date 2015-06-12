@@ -16,36 +16,49 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module MEnv.Resource.IOS
-  (
-    resourceGet,
-    resourceModify,
-    resourceModifyIO,
-
-  ) where
+{-# LANGUAGE ForeignFunctionInterface #-}
+module OpenAL.GLFW.Types where
+    
+import Foreign.Ptr
+import Foreign.C
 
 
-import MEnv.IOS
-import qualified Control.Monad.State as MState
+type ALboolean = 
+    CChar
 
+type ALchar =
+    CChar
 
--- | get resource
-resourceGet :: MEnv res res
-resourceGet =
-    MState.get
+type ALbyte =
+    CChar
 
+type ALubyte =
+    CUChar
 
--- | modify resource
-resourceModify :: (res -> res) -> MEnv res ()
-resourceModify =
-    MState.modify
+type ALshort =
+    CShort
 
+type ALushort =
+    CUShort
 
--- | modify resource inside IO
-resourceModifyIO :: (res -> IO res) -> MEnv res ()
-resourceModifyIO f = do
-    env <- MState.get
-    env' <- MState.liftIO $ f $ env
-    MState.put $ env'
+type ALint =
+    CInt
 
+type ALuint =
+    CUInt
+
+type ALsizei =
+    CInt
+
+type ALenum =
+    CInt
+
+type ALfloat =
+    CFloat
+
+type ALdouble =
+    CDouble
+
+type ALvoid =
+    ()
 

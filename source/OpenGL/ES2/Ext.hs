@@ -16,9 +16,9 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module OpenGL.IOS.Ext where
+module OpenGL.ES2.Ext where
 
-import OpenGL.IOS.Types
+import OpenGL.ES2.Types
 import Foreign.Ptr
 import Foreign.C.Types
 

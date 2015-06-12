@@ -16,84 +16,46 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module OpenGL.IOS.Types
+module File.IOS
   (
-    GLvoid,
-    GLchar,
-    GLenum,
-    GLboolean,
-    GLbitfield,
-    GLbyte,
-    GLshort,
-    GLint,
-    GLsizei,
-    GLubyte,
-    GLushort,
-    GLuint,
-    GLfloat,
-    GLclampf,
-    GLfixed,
-    GLclampx,
-    GLintptr,
-    GLsizeiptr,
+    fileStaticData,
+    fileDynamicData,
+    fileUser,
+    fileTmp,
 
   ) where
 
+
+import MyPrelude
+import Foreign.Ptr
 import Foreign.C.Types
+import Foreign.C.String
+import Foreign.Marshal.Array
 
-type GLvoid =
-    ()
 
-type GLchar = 
-    CChar
 
-type GLenum =
-    CUInt
 
-type GLboolean =
-    CUChar
+-- | full path to read-only application data
+fileStaticData :: FilePath -> IO FilePath
+fileStaticData path = 
+    undefined
 
-type GLbitfield =
-    CUInt
 
-type GLbyte =
-    CSChar
+-- | full path to read-write application data
+fileDynamicData :: FilePath -> IO FilePath
+fileDynamicData path =
+    undefined
 
-type GLshort =
-    CShort
 
-type GLint =
-    CInt
+-- | full path to user file directory
+fileUser :: FilePath -> IO FilePath
+fileUser path = 
+    undefined
 
-type GLsizei =
-    CInt
-
-type GLubyte =
-    CUChar
-
-type GLushort =
-    CUShort
-
-type GLuint =
-    CUInt
-
-type GLfloat =
-    CFloat
-
-type GLclampf =
-    CFloat
-
-type GLfixed =
-    CInt
-
-type GLclampx =
-    CInt
-
-type GLintptr =
-    CLong
-
-type GLsizeiptr =
-    CLong
+-- | full path to tmp file directory
+fileTmp :: FilePath -> IO FilePath
+fileTmp path = 
+    undefined
 
 
 

@@ -18,16 +18,13 @@
 --
 module OpenGL
   (
-  
-#ifdef GRID_PLATFORM_IOS
+
+#ifdef GRID_OPENGL_ES2
 -- OpenGL ES 2.0
-    module OpenGL.IOS,
-    module OpenGL.IOS.Ext,
-    module OpenGL.IOS.Values,
-    module OpenGL.IOS.Types,
-#endif
-#ifdef GRID_PLATFORM_GLFW
--- fixme: OpenGL 3.3+
+    module OpenGL.ES2,
+    module OpenGL.ES2.Ext,
+    module OpenGL.ES2.Values,
+    module OpenGL.ES2.Types,
 #endif
 
     module Foreign.Storable,
@@ -49,14 +46,11 @@ import Foreign.Marshal.Array
 import Data.Word
 import Data.Bits
 
-#ifdef GRID_PLATFORM_IOS
-import OpenGL.IOS
-import OpenGL.IOS.Ext
-import OpenGL.IOS.Values
-import OpenGL.IOS.Types
-#endif
-#ifdef GRID_PLATFORM_GLFW
--- fixme: OpenGL 3.3+
+#ifdef GRID_OPENGL_ES2
+import OpenGL.ES2
+import OpenGL.ES2.Ext
+import OpenGL.ES2.Values
+import OpenGL.ES2.Types
 #endif
 
 

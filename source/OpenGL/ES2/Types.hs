@@ -16,8 +16,84 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module OpenAL.IOS.Ext where
+module OpenGL.ES2.Types
+  (
+    GLvoid,
+    GLchar,
+    GLenum,
+    GLboolean,
+    GLbitfield,
+    GLbyte,
+    GLshort,
+    GLint,
+    GLsizei,
+    GLubyte,
+    GLushort,
+    GLuint,
+    GLfloat,
+    GLclampf,
+    GLfixed,
+    GLclampx,
+    GLintptr,
+    GLsizeiptr,
 
-import OpenAL.IOS.Types
-import Foreign.Ptr
+  ) where
+
 import Foreign.C.Types
+
+type GLvoid =
+    ()
+
+type GLchar = 
+    CChar
+
+type GLenum =
+    CUInt
+
+type GLboolean =
+    CUChar
+
+type GLbitfield =
+    CUInt
+
+type GLbyte =
+    CSChar
+
+type GLshort =
+    CShort
+
+type GLint =
+    CInt
+
+type GLsizei =
+    CInt
+
+type GLubyte =
+    CUChar
+
+type GLushort =
+    CUShort
+
+type GLuint =
+    CUInt
+
+type GLfloat =
+    CFloat
+
+type GLclampf =
+    CFloat
+
+type GLfixed =
+    CInt
+
+type GLclampx =
+    CInt
+
+type GLintptr =
+    CLong
+
+type GLsizeiptr =
+    CLong
+
+
+

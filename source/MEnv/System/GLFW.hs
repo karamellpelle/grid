@@ -30,19 +30,21 @@ import MEnv
 
 systemHandleFrontBegin :: a -> a -> MEnv res a
 systemHandleFrontBegin a a' = 
-    return a
+    io $ putStrLn "GLFW.systemHandleFrontBegin" >> return a
 
 systemHandleFrontEnd :: a -> a -> MEnv res a
 systemHandleFrontEnd a a' = 
-    return a
+    io $ putStrLn "GLFW.systemHandleFrontEnd" >> return a
+
 
 systemHandleBackBegin :: a -> a -> MEnv res a
 systemHandleBackBegin a a' = 
-    return a
+    io $ putStrLn "GLFW.systemHandleBackBegin" >> return a
+
 
 systemHandleBackEnd :: a -> a -> MEnv res a
 systemHandleBackEnd a a' = 
-    return a
+    io $ putStrLn "GLFW.systemHandleBackEnd" >> return a
 
 
 
