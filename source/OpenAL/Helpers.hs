@@ -65,8 +65,10 @@ loadBuf buf path =
 #ifdef GRID_PLATFORM_IOS
 foreign import ccall unsafe "ios_loadBuf" c_loadBuf 
     :: ALuint -> CString -> IO CUInt
-#else
-c_loadBuf = undefined
+#endif
+#ifdef GRID_PLATFORM_IOS
+foreign import ccall unsafe "glfw_loadBuf" c_loadBuf 
+    :: ALuint -> CString -> IO CUInt
 #endif
 
 

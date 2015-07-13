@@ -419,8 +419,10 @@ createShader tp path =
 #ifdef GRID_PLATFORM_IOS
 foreign import ccall unsafe "ios_loadTexPreMult" c_loadTexPreMult
     :: GLenum -> CString -> Ptr GLuint -> Ptr GLuint -> GLenum -> IO CUInt
-#else
-c_loadTexPreMult = undefined
+#endif
+#ifdef GRID_PLATFORM_GLFW
+foreign import ccall unsafe "glfw_loadTexPreMult" c_loadTexPreMult
+    :: GLenum -> CString -> Ptr GLuint -> Ptr GLuint -> GLenum -> IO CUInt
 #endif
 
 -- | load texture of type 'target' into currently bound tex, as 'intfmt'

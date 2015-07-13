@@ -73,7 +73,8 @@ import Main.GLFW
                   initKeysAcclGyroRate = 0.1
 #endif
 #ifdef GRID_PLATFORM_GLFW
-
+                  initScreenMultisample = 0,  -- let GLFW choose best (??)
+                  initScreenFullscreen = False
 #endif
                }
    

@@ -31,31 +31,36 @@ import Foreign.Ptr
 import Foreign.C.Types
 import Foreign.C.String
 import Foreign.Marshal.Array
+import System.Directory
 
+-- from cabal
+import Paths_grid
 
 
 
 -- | full path to read-only application data
 fileStaticData :: FilePath -> IO FilePath
-fileStaticData path = 
-    undefined
+fileStaticData = 
+    getDataFileName
 
 
 -- | full path to read-write application data
 fileDynamicData :: FilePath -> IO FilePath
 fileDynamicData path =
-    undefined
+    fmap (++ ("/dynamic/" ++ path)) getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
 
 
 -- | full path to user file directory
 fileUser :: FilePath -> IO FilePath
 fileUser path = 
-    undefined
+    fmap (++ ("/user/" ++ path)) getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
 
 -- | full path to tmp file directory
 fileTmp :: FilePath -> IO FilePath
 fileTmp path = 
-    undefined
+    fmap (++ ("/tmp/" ++ path)) getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
+    --fmap (++ ("/" ++ path)) getTemporaryDirectory 
 
+createDirectoryIfMissing True path
 
 

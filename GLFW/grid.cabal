@@ -1,0 +1,428 @@
+name:                grid
+version:             1.0
+synopsis:            line game in 3D
+-- description:         
+homepage:            https://github.com/karamellpelle/grid
+license:             GPL-3
+license-file:        LICENSE
+author:              Carl Joachim Svenn
+maintainer:          karamellpelle@hotmail.com
+-- copyright:           
+category:            Game
+build-type:          Simple
+extra-source-files:  run.c      -- to be included when creating package
+                     screen.c
+                     openal.c
+                     opengl.c
+                     keys.c
+                     tick.c 
+cabal-version:       >=1.10
+
+
+Flag StyleFancy:  Output style Fancy
+    description:  Output style Simple, otherwise Plain
+    default:      True
+
+Flag BuildDebug
+    description:  Include debug in build
+    default:      True
+
+if flag( StyleFancy )
+    data-dir:        ../data_fancy
+    data-files:      tmp/*.png
+                     guis/zero/*.png
+                     Run/Scene/*.caf
+                     Run/Scene/*.png
+                     Run/Output/*.png
+                     Run/Output/*.caf
+                     Memory/Output/*.caf
+                     shaders/*.fsh
+                     shaders/*.vsh
+                     LevelPuzzle/*.def
+                     LevelPuzzle/*.png
+                     LevelPuzzle/*.caf
+                     LevelPuzzle/world
+                     Font/*.fsh
+                     Font/*.vsh
+                     GUI/*.fsh
+                     GUI/*.vsh
+                     fonts/font_game/*.png
+                     players/empty/Run/world
+else
+    data-dir:        ../data_plain
+    data-files:      guis/zero/*.png
+                     Run/Scene/*.png
+                     Run/Scene/*.caf
+                     Run/Output/*.png
+                     Run/Output/*.caf
+                     gui/*.fsh
+                     gui/*.vsh
+                     Grid/Output/*.png
+                     Memory/Output/*.caf
+                     shaders/*.fsh
+                     shaders/*.vsh
+                     LevelPuzzle/Output/*.png
+                     LevelPuzzle/Output/*.caf
+                     LevelPuzzle/world
+                     font/*.fsh
+                     font/*.vsh
+                     fonts/font_game/*.png
+                     players/empty/Run/world
+
+
+executable grid
+  -- other-extensions:    
+  extensions:          CPP
+  build-depends:       base >=4.8 && <4.9 -- TODO
+  ghc-options:         -DGRID_PLATFORM_GLFW
+                       -Wall
+                       -fno-warn-name-shadowing
+                       -fno-warn-unused-matches 
+                       -fno-warn-unused-binds 
+                       -fno-warn-unused-do-bind 
+                       -fno-warn-missing-signatures 
+                       -fno-warn-unused-imports"
+  cc-options:          -DGRID_PLATFORM_GLFW
+
+  if flag( StyleFancy )
+    ghc-options:       -DGRID_STYLE_FANCY
+    cc-options:        -DGRID_STYLE_FANCY
+  else
+    ghc-options:       -DGRID_STYLE_PLAIN
+    cc-options:        -DGRID_STYLE_PLAIN
+
+  if flag( BuildDebug )
+    ghc-options:       -DDEBUG
+                       -DGRID_SAFE
+    --cc-options:        -DDEBUG
+    
+  hs-source-dirs:      ../source
+  default-language:    Haskell2010
+
+  include-dirs:        c_glfw
+  includes:            glfw_foreign.h
+                       GL/glew.h
+                       GLFW/glfw3.h
+                       AL/al.h
+                       AL/alc.h
+                       AL/alext.h
+  c-sources:           run.c --TODO: c-sources-dirs?
+                       screen.c
+                       openal.c
+                       opengl.c
+                       keys.c
+                       tick.c 
+  pkgconfig-depends:   openal 
+                       glfw3
+                       glew
+                       --libpng
+                       -- pkg-config --list-all
+  --extra-libraries:     -- C?
+  --extra-lib-dirs:      -- C?? remove, use pkgconfig-depends
+
+  -- sources:
+  main-is:              Main.hs
+  other-modules:        OpenAL
+                        Game
+                        File
+                        Debug
+                        OpenGL
+                        MyPrelude
+                        File.Binary
+                        File.GLFW
+                        File.Binary.Writer
+                        File.Binary.Reader
+                        Game.Values
+                        Game.Font
+                        Game.Run.RunData.Fancy
+                        Game.Run.RunData.Plain
+                        Game.Run.RunData.Plain.SoundRun
+                        Game.Run.RunData.Plain.ShadeCorners
+                        Game.Run.RunData.Plain.ShadeCube
+                        Game.Run.RunData.Plain.ShadeScreenshot
+                        Game.Run.RunData.Plain.ShadeScenePause
+                        Game.Run.RunData.Plain.SoundScene
+                        Game.Run.RunData.Plain.ShadeSceneBegin
+                        Game.Run.RunData.Plain.ShadeSceneKonami
+                        Game.Run.RunData.Plain.ShadeScene
+                        Game.Run.RunData.Fancy.SoundRun
+                        Game.Run.RunData.Fancy.ShadeCube
+                        Game.Run.RunData.Fancy.ShadeScreenshot
+                        Game.Run.RunData.Fancy.SceneData
+                        Game.Run.RunData.Fancy.CornerData
+                        Game.Run.RunData.Fancy.ShadeScenePause
+                        Game.Run.RunData.Fancy.SoundScene
+                        Game.Run.RunData.Fancy.ShadeSceneBegin
+                        Game.Run.RunData.Fancy.ShadeSceneKonami
+                        Game.Run.RunData.Fancy.ShadeScene
+                        Game.Run.Output
+                        Game.Run.File
+                        Game.Run.RunWorld
+                        Game.Run.Scene.Fancy
+                        Game.Run.Scene.Plain
+                        Game.Run.Scene.Plain.ShadeCorners
+                        Game.Run.Scene.Plain.ShadeScreenshot
+                        Game.Run.Scene.Plain.ShadeScenePause
+                        Game.Run.Scene.Plain.SoundScene
+                        Game.Run.Scene.Plain.ShadeSceneBegin
+                        Game.Run.Scene.Plain.ShadeSceneKonami
+                        Game.Run.Scene.Plain.ShadeScene
+                        Game.Run.Scene.Fancy.ShadeScreenshot
+                        Game.Run.Scene.Fancy.Present
+                        Game.Run.Scene.Fancy.ShadeScenePause
+                        Game.Run.Scene.Fancy.ShadeSceneBegin
+                        Game.Run.Scene.Fancy.Step
+                        Game.Run.Scene.Fancy.ShadeSceneKonami
+                        Game.Run.Scene.Fancy.ShadeScene
+                        Game.Run.Do
+                        Game.Run.File.Version
+                        Game.Run.File.Field
+                        Game.Run.File.Write
+                        Game.Run.File.Read
+                        Game.Run.Iteration.Konami
+                        Game.Run.Iteration.Settings
+                        Game.Run.Iteration.AtFace
+                        Game.Run.Iteration.Foreign
+                        Game.Run.Iteration.About
+                        Game.Run.Iteration.LevelPuzzle
+                        Game.Run.Iteration.Memory
+                        Game.Run.Iteration.Pause
+                        Game.Run.Iteration.State
+                        Game.Run.Iteration.Iteration
+                        Game.Run.RunData
+                        Game.Run.Eggs
+                        Game.Run.Helpers.Fancy
+                        Game.Run.Helpers.Make
+                        Game.Run.Helpers.Plain
+                        Game.Run.Helpers.World
+                        Game.Run.Helpers.Message
+                        Game.Run.Eggs.SequenceEater
+                        Game.Run.Eggs.Do
+                        Game.Run.Eggs.Button
+                        Game.Run.RunWorld.Scene.Fancy
+                        Game.Run.RunWorld.Scene.Plain
+                        Game.Run.RunWorld.Scene.Fancy.Values
+                        Game.Run.RunWorld.Scene.Fancy.Tweak
+                        Game.Run.RunWorld.Scene.Fancy.Noise
+                        Game.Run.RunWorld.OutputState
+                        Game.Run.RunWorld.Face
+                        Game.Run.RunWorld.Scene
+                        Game.Run.RunWorld.Screenshot.Fancy
+                        Game.Run.RunWorld.Screenshot.Plain
+                        Game.Run.RunWorld.OutputState.Fancy
+                        Game.Run.RunWorld.OutputState.Plain
+                        Game.Run.RunWorld.Message
+                        Game.Run.RunWorld.Screenshot
+                        Game.Run.Scene
+                        Game.Run.Helpers
+                        Game.Run.Output.Fancy
+                        Game.Run.Output.Plain
+                        Game.Run.Output.Plain.SoundRun
+                        Game.Run.Output.Plain.ShadeCube
+                        Game.Run.Output.Plain.Sound
+                        Game.Run.Output.Plain.Screen
+                        Game.Run.Output.Fancy.SoundRun
+                        Game.Run.Output.Fancy.ShadeCube
+                        Game.Run.Output.Fancy.CornerData
+                        Game.Run.Output.Fancy.Sound
+                        Game.Run.Output.Fancy.Screen
+                        Game.Run.Iteration
+                        Game.Run.Do.Grid
+                        Game.Run.Do.Grid.Modify
+                        Game.Run.Do.Input
+                        Game.Values.Fancy
+                        Game.Values.Plain
+                        Game.Values.Eggs
+                        Game.GameData
+                        Game.Grid
+                        Game.GUI
+                        Game.Grid.Output
+                        Game.Grid.Do
+                        Game.Grid.Modify
+                        Game.Grid.GridWorld.Path
+                        Game.Grid.GridWorld.Make
+                        Game.Grid.GridWorld.Camera
+                        Game.Grid.GridWorld.CameraCommand
+                        Game.Grid.GridWorld.Node
+                        Game.Grid.GridWorld.Turn
+                        Game.Grid.GridWorld.Segment
+                        Game.Grid.GridWorld.SegmentArray
+                        Game.Grid.GridWorld.Path.Fancy
+                        Game.Grid.GridWorld.Path.Plain
+                        Game.Grid.Helpers.Path
+                        Game.Grid.Helpers.Camera
+                        Game.Grid.Helpers.Segment
+                        Game.Grid.StepDT
+                        Game.Grid.GridData.Fancy
+                        Game.Grid.GridData.Plain
+                        Game.Grid.GridData.Plain.ShadePath
+                        Game.Grid.GridData.Plain.ShadeSpaceBox
+                        Game.Grid.GridData.Plain.ColorMap
+                        Game.Grid.GridData.Plain.SoundPath
+                        Game.Grid.GridData.Fancy.ShadePath
+                        Game.Grid.GridData.Fancy.ColorMap
+                        Game.Grid.GridData.Fancy.ShadeGeneral
+                        Game.Grid.GridData.Fancy.ShadeSpace
+                        Game.Grid.GridData.Fancy.SoundPath
+                        Game.Grid.GridData
+                        Game.Grid.GridWorld
+                        Game.Grid.Helpers
+                        Game.Grid.Output.Fancy
+                        Game.Grid.Output.Plain
+                        Game.Grid.Output.Plain.ShadePath
+                        Game.Grid.Output.Plain.ShadeSpaceBox
+                        Game.Grid.Output.Plain.SoundGrid
+                        Game.Grid.Output.Fancy.ShadePath
+                        Game.Grid.Output.Fancy.ShadeGeneral
+                        Game.Grid.Output.Fancy.ShadeSpace
+                        Game.Grid.Output.Fancy.SoundGrid
+                        Game.Memory.Output
+                        Game.Memory.MemoryWorld
+                        Game.Memory.MemoryData
+                        Game.Memory.Do
+                        Game.Memory.MemoryWorld.OutputState
+                        Game.Memory.MemoryWorld.OutputState.Fancy
+                        Game.Memory.MemoryWorld.OutputState.Plain
+                        Game.Memory.MemoryData.Fancy
+                        Game.Memory.MemoryData.Plain
+                        Game.Memory.MemoryData.Plain.SoundMemory
+                        Game.Memory.MemoryData.Fancy.SoundMemory
+                        Game.Memory.Helpers.Make
+                        Game.Memory.Helpers
+                        Game.Memory.Output.Fancy
+                        Game.Memory.Output.Plain
+                        Game.Memory.Output.Plain.SoundMemory
+                        Game.Memory.Output.Plain.State
+                        Game.Memory.Output.Plain.Sound
+                        Game.Memory.Output.Plain.Screen
+                        Game.Memory.Output.Fancy.SoundMemory
+                        Game.Memory.Output.Fancy.State
+                        Game.Memory.Output.Fancy.Sound
+                        Game.Memory.Output.Fancy.Screen
+                        Game.Memory.Iteration
+                        Game.Memory.Do.Grid
+                        Game.Run
+                        Game.Do
+                        Game.Data.Color
+                        Game.Data.Shape
+                        Game.Data.View
+                        Game.LevelPuzzle
+                        Game.World
+                        Game.Helpers.Prewarm.Fancy
+                        Game.Helpers.Prewarm.Plain
+                        Game.Helpers.Prewarm
+                        Game.Helpers.World
+                        Game.LevelPuzzle.Output
+                        Game.LevelPuzzle.File
+                        Game.LevelPuzzle.LevelPuzzleData.Fancy
+                        Game.LevelPuzzle.LevelPuzzleData.Plain
+                        Game.LevelPuzzle.LevelPuzzleData.Plain.ShadeWall
+                        Game.LevelPuzzle.LevelPuzzleData.Plain.SoundLevelPuzzle
+                        Game.LevelPuzzle.LevelPuzzleData.Plain.ShadeDot
+                        Game.LevelPuzzle.LevelPuzzleData.Fancy.ShadeWall
+                        Game.LevelPuzzle.LevelPuzzleData.Fancy.SoundLevelPuzzle
+                        Game.LevelPuzzle.LevelPuzzleData.Fancy.ShadeDot
+                        Game.LevelPuzzle.Do
+                        Game.LevelPuzzle.File.Version
+                        Game.LevelPuzzle.File.Field
+                        Game.LevelPuzzle.File.Write
+                        Game.LevelPuzzle.File.Read
+                        Game.LevelPuzzle.LevelPuzzleWorld.Dot
+                        Game.LevelPuzzle.LevelPuzzleWorld.Wall
+                        Game.LevelPuzzle.LevelPuzzleWorld.Level
+                        Game.LevelPuzzle.LevelPuzzleWorld.Content
+                        Game.LevelPuzzle.LevelPuzzleWorld.OutputState
+                        Game.LevelPuzzle.LevelPuzzleWorld.Content.Fancy
+                        Game.LevelPuzzle.LevelPuzzleWorld.Content.Plain
+                        Game.LevelPuzzle.LevelPuzzleWorld.RoomIx
+                        Game.LevelPuzzle.LevelPuzzleWorld.Room
+                        Game.LevelPuzzle.LevelPuzzleWorld.OutputState.Fancy
+                        Game.LevelPuzzle.LevelPuzzleWorld.OutputState.Plain
+                        Game.LevelPuzzle.Iteration.State
+                        Game.LevelPuzzle.Helpers.PlayerPath
+                        Game.LevelPuzzle.Helpers.Make
+                        Game.LevelPuzzle.LevelPuzzleWorld
+                        Game.LevelPuzzle.LevelPuzzleData
+                        Game.LevelPuzzle.Helpers
+                        Game.LevelPuzzle.Output.Fancy
+                        Game.LevelPuzzle.Output.Plain
+                        Game.LevelPuzzle.Output.Plain.ShadeWall
+                        Game.LevelPuzzle.Output.Plain.SoundLevelPuzzle
+                        Game.LevelPuzzle.Output.Plain.State
+                        Game.LevelPuzzle.Output.Plain.Sound
+                        Game.LevelPuzzle.Output.Plain.ShadeDot
+                        Game.LevelPuzzle.Output.Plain.Screen
+                        Game.LevelPuzzle.Output.Fancy.ShadeWall
+                        Game.LevelPuzzle.Output.Fancy.SoundLevelPuzzle
+                        Game.LevelPuzzle.Output.Fancy.State
+                        Game.LevelPuzzle.Output.Fancy.Sound
+                        Game.LevelPuzzle.Output.Fancy.ShadeDot
+                        Game.LevelPuzzle.Output.Fancy.Screen
+                        Game.LevelPuzzle.Iteration
+                        Game.LevelPuzzle.Do.Grid
+                        Game.LevelPuzzle.Do.Grid.Modify
+                        Game.LevelPuzzle.Do.Grid.StepDT
+                        Game.Font.FontData
+                        Game.Font.FontShade
+                        Game.Font.FontObject
+                        Game.Font.FontColor
+                        Game.Font.Buffer
+                        Game.Memory
+                        Game.GUI.GUIShade
+                        Game.GUI.Widget
+                        Game.GUI.GUIData
+                        Game.GUI.Widget.Output
+                        Game.GUI.Widget.LayoutWidget.StaticLayout
+                        Game.GUI.Widget.ContourWidget
+                        Game.GUI.Widget.LabelWidget
+                        Game.GUI.Widget.TextWidget
+                        Game.GUI.Widget.ScreenWidget
+                        Game.GUI.Widget.ChildWidget
+                        Game.GUI.Widget.LayoutWidget
+                        Game.GUI.Widget.ButtonWidget
+                        Game.GUI.Widget.MinWidget
+                        Game.GUI.Widget.BorderWidget
+                        Game.GUI.Widget.ScrollWidget
+                        Game.GUI.Widget.MaxWidget
+                        Game.GUI.Widget.ScaleWidget
+                        Game.GUI.Widget.Helpers
+                        Game.GUI.Widget.NumberWidget
+                        Game.GUI.Widget.EmptyWidget
+                        Game.GUI.Widget.SlideWidget
+                        Game.GUI.Widget.Output.Draw
+                        Game.GUI.GUIState
+                        Game.Step
+                        Game.Helpers
+                        Game.MEnv
+                        Game.Output.Drawer
+                        Game.Iteration
+                        Main
+                        MEnv.Resource
+                        MEnv.Tick
+                        MEnv.Players
+                        MEnv.Keys
+                        MEnv.Foreign
+                        MEnv.Tick.GLFW
+                        MEnv.GLFW
+                        MEnv.Screen.GLFW
+                        MEnv.Foreign.GLFW
+                        MEnv.Keys.GLFW
+                        MEnv.System.GLFW
+                        MEnv.Players.GLFW
+                        MEnv.Sound
+                        MEnv.Sound.GLFW
+                        MEnv.GLFW.Init
+                        MEnv.Screen
+                        MEnv.System
+                        Linear
+                        OpenAL.Helpers
+                        OpenAL.GLFW.Values
+                        OpenAL.GLFW.Types
+                        OpenGL.Shade
+                        OpenGL.ES2.Values
+                        OpenGL.ES2.Types
+                        OpenGL.ES2.Ext
+                        OpenGL.ES2
+                        OpenGL.Helpers
+                        MEnv
+                        Paths_grid -- access to data files 

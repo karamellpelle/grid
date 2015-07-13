@@ -75,4 +75,56 @@ runMEnvIOS init loadResource unloadResource
            iterate
            end
            a = do
-    putStrLn "GLFW is not implemented yet"
+
+    -- initialize environment
+    alloca $ \ptr -> do
+        poke ptr init
+        glfw_init ptr
+    
+    refEnv <- newIORef $ error "runIOSMEnv: refEnv undefined"
+    refB <- newIORef $ error "runIOSMEnv: refB undefined"
+
+    -- a -> m b
+    -- create callback into Haskell from Foreign
+    funptrBegin <- mkHaskellCall $ do
+        -- create resource
+        env <- loadResource
+
+        (b, env') <- runStateT (menvUnwrap $ begin a) env
+        writeIORef refB b
+        writeIORef refEnv env'
+
+    -- b -> m b
+    -- create callback into Haskell from Foreign
+    funptrIterate <- mkHaskellCall $ do
+        env <- readIORef refEnv
+        b <- readIORef refB
+        (b', env') <- runStateT (menvUnwrap $ iterate b) env
+        writeIORef refB b'
+        writeIORef refEnv env'
+
+    -- call Haskell from Foreign. this function should not return. 
+    glfw_main funptrBegin funptrIterate
+
+    -- GLFW complete, clean up
+
+    freeHaskellFunPtr funptrIterate
+    freeHaskellFunPtr funptrBegin
+
+    -- b -> m c
+    b <- readIORef refB
+    env <- readIORef refEnv
+    (c, env') <- runStateT (menvUnwrap $ end b) env
+
+    unloadResource env'
+
+    return c
+
+
+-- | void ios_init(IOSInit* )
+foreign import ccall "glfw_init" ios_init
+    :: Ptr Init -> IO ()
+
+-- | void ios_main(void (*begin)(), void (*iterate)())
+foreign import ccall safe "glfw_iterate" ios_main
+    :: FunPtr (IO ()) -> FunPtr (IO ()) -> IO ()

@@ -16,7 +16,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module MEnv.Init.Init
+module MEnv.GLFW.Init
   (
     Init (..),
 
@@ -35,6 +35,24 @@ import Data.List
 data Init =
     Init
     {
+        initScreenMultisample :: !UInt,         -- ^ number of multisamples
+        initScreenFullscreen :: !Bool           -- ^ fullscreen?
     }
 
+
+instance Storable Init where
+    sizeOf _    = 4 + 4
+    alignment _ = 4
+    poke ptr init = do
+        pokeByteOff ptr 0  (fI $ initScreenMultisample init :: CUInt)
+        pokeByteOff ptr 4  (fI $ initScreenFullscreen :: CUInt)
+    peek ptr = do
+        mult <- peekByteOff ptr 0 :: IO CUInt 
+        full <- peekByteOff ptr 4 :: IO CUInt
+
+        return Init
+               {
+                  initScreenMultisample = fI mult,
+                  initScreenOrientations = fI full
+               }
 
