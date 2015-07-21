@@ -53,7 +53,7 @@
 //      RGB565
 //      RGBA5551
 //      RGBA4444
-uint glfw_loadTexPreMult(GLenum target, const char* path, uint* wth, uint* hth, GLenum intfmt)
+uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* hth, GLenum intfmt)
 {
     // (assuming tex is bound)
 /* 
@@ -92,6 +92,6 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, uint* wth, uint* hth, 
     free(image_data);
     [image release];
 */
-    return true;
+    return 1;
 
 }

@@ -17,7 +17,7 @@ version = Version [1,0] []
 bindir, libdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/usr/local/bin"
-libdir     = "/usr/local/lib/x86_64-linux-ghc-7.10.1/grid_I4DZM1cgOi7J7gl9upbAiZ"
+libdir     = "/usr/local/lib/x86_64-linux-ghc-7.10.1/grid_Ly8uEcjwfAhEaLGtREzqGN"
 datadir    = "/usr/local/share/x86_64-linux-ghc-7.10.1/grid-1.0"
 libexecdir = "/usr/local/libexec"
 sysconfdir = "/usr/local/etc"

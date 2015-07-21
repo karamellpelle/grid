@@ -36,6 +36,7 @@ import OpenGL.Helpers
 import OpenAL
 import OpenAL.Helpers
 
+
 #ifdef DEBUG
 import Foreign
 #endif
@@ -54,12 +55,6 @@ main = do
 #endif
 
 
-#ifdef GRID_PLATFORM_IOS
-import Main.IOS
-#endif
-#ifdef GRID_PLATFORM_GLFW
-import Main.GLFW
-#endif
 
     -- define MEnv
     let init = Init

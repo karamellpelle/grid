@@ -17,9 +17,9 @@
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
 {-# LANGUAGE ForeignFunctionInterface #-}
-module OpenAL.GLFW.Values where
+module OpenAL.Values where
     
-import OpenAL.GLFW.Types
+import OpenAL.Types
 
 import Foreign.Ptr
 import Foreign.C

@@ -16,6 +16,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
+{-# LANGUAGE FlexibleContexts #-}
 module Game.LevelPuzzle.Do.Grid.StepDT
   (
     collisionPlay,

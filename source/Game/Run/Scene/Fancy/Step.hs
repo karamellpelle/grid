@@ -26,6 +26,7 @@ module Game.Run.Scene.Fancy.Step
   ) where
 
 import MyPrelude
+import Prelude hiding ((*>))
 import Game
 
 import Game.Font

@@ -23,17 +23,19 @@ module MEnv.Foreign.GLFW
 
   ) where
 
+import MyPrelude
 import MEnv
 
 
 foreignBeginForeign :: MEnv res ()
-foreignBeginForeign = 
+foreignBeginForeign = io $
     putStrLn "GLFW.foreignBeginForeign"
 
 
 
 foreignHandleForeignEnd :: a -> a -> MEnv res a
-foreignHandleForeignEnd a a' =
+foreignHandleForeignEnd a a' = io $ do
     putStrLn "GLFW.foreignHandleForeignEnd"
+    return a
 
 

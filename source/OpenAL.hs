@@ -19,16 +19,9 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module OpenAL
   (
-#ifdef GRID_PLATFORM_IOS
-    module OpenAL.IOS,
-    module OpenAL.IOS.Values,
-    module OpenAL.IOS.Types,
-#endif
-#ifdef GRID_PLATFORM_GLFW
-    module OpenAL.GLFW,
-    module OpenAL.GLFW.Values,
-    module OpenAL.GLFW.Types,
-#endif
+    module OpenAL.Values,
+    module OpenAL.Types,
+
     module Foreign.Storable,
     module Foreign.Ptr,
     module Foreign.C,
@@ -36,6 +29,80 @@ module OpenAL
     module Foreign.Marshal.Array,
     module Data.Word,
     module Data.Bits,
+    
+    alGetString,
+    alGetBooleanv,
+    alGetIntegerv, 
+    alGetFloatv, 
+    alGetDoublev, 
+    alGetBoolean, 
+    alGetInteger, 
+    alGetFloat, 
+    alGetDouble, 
+    alEnable, 
+    alGetError,
+    alDisable,
+    alIsEnabled,
+    alIsExtensionPresent, 
+    alGetProcAddress, 
+    alGetEnumValue, 
+    alListenerf, 
+    alListener3f, 
+    alListenerfv, 
+    alListeneri, 
+    alListener3i, 
+    alListeneriv, 
+    alGetListenerf, 
+    alGetListener3f, 
+    alGetListenerfv, 
+    alGetListeneri, 
+    alGetListener3i, 
+    alGetListeneriv, 
+    alGenSources, 
+    alDeleteSources, 
+    alIsSource, 
+    alSourcef, 
+    alSource3f, 
+    alSourcefv,
+    alSourcei, 
+    alGetSourcefv, 
+    alSource3i, 
+    alSourceiv, 
+    alGetSourcef, 
+    alGetSource3f, 
+    alGetSourcei, 
+    alGetSource3i, 
+    alGetSourceiv, 
+    alSourcePlayv, 
+    alSourceStopv, 
+    alSourceRewindv, 
+    alSourcePausev, 
+    alSourcePlay, 
+    alSourceStop, 
+    alSourceRewind, 
+    alSourcePause, 
+    alSourceQueueBuffers, 
+    alGenBuffers, 
+    alSourceUnqueueBuffers, 
+    alDeleteBuffers, 
+    alIsBuffer, 
+    alBufferData, 
+    alBufferf, 
+    alBuffer3f, 
+    alBufferfv, 
+    alBufferi, 
+    alBuffer3i,
+    alBufferiv, 
+    alGetBufferf, 
+    alGetBuffer3f, 
+    alGetBufferfv, 
+    alGetBufferi, 
+    alGetBuffer3i, 
+    alGetBufferiv, 
+    alDopplerFactor, 
+    alDopplerVelocity, 
+    alSpeedOfSound, 
+    alDistanceModel, 
 
   ) where
 
@@ -49,16 +116,8 @@ import Foreign.Marshal.Array
 import Data.Word
 import Data.Bits
 
-#ifdef GRID_PLATFORM_IOS
-import OpenAL.IOS
-import OpenAL.IOS.Values
-import OpenAL.IOS.Types
-#endif
-#ifdef GRID_PLATFORM_GLFW
-import OpenAL.GLFW
-import OpenAL.GLFW.Values
-import OpenAL.GLFW.Types
-#endif
+import OpenAL.Values
+import OpenAL.Types
 
 
     

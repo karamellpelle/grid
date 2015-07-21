@@ -37,7 +37,7 @@ module Linear
     mat4Translate3,
     
     Vec4 (..),
-    (*>),
+    (Linear.*>),
     (<+>),
     vec4Norm,
     vec4Dot,

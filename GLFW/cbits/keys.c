@@ -35,11 +35,6 @@ uint glfw_keysTouchHandlePointVector(double* ticks, float* x, float* y, float* x
     return 0;
 }
 
-uint glfw_keysTouchHandlePointVector(double* ticks, float* x, float* y, float* x1, float* y1)
-{
-    return 0;
-}
-
 uint glfw_keysTouchHandleCircleTouched(float* x, float* y, float* r)
 {
     return 0;

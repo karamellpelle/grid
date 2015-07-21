@@ -58,3 +58,12 @@ prewarmGUIShade = do
 
 -}
 #endif
+
+#ifdef GRID_PLATFORM_GLFW
+
+prewarmShaders :: MEnv' ()
+prewarmShaders = 
+    return ()
+
+#endif
+

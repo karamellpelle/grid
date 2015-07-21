@@ -45,7 +45,7 @@ instance Storable Init where
     alignment _ = 4
     poke ptr init = do
         pokeByteOff ptr 0  (fI $ initScreenMultisample init :: CUInt)
-        pokeByteOff ptr 4  (fI $ initScreenFullscreen :: CUInt)
+        pokeByteOff ptr 4  (if initScreenFullscreen init then 1 else 0 :: CUInt)
     peek ptr = do
         mult <- peekByteOff ptr 0 :: IO CUInt 
         full <- peekByteOff ptr 4 :: IO CUInt
@@ -53,6 +53,6 @@ instance Storable Init where
         return Init
                {
                   initScreenMultisample = fI mult,
-                  initScreenOrientations = fI full
+                  initScreenFullscreen = (full /= 0)
                }
 

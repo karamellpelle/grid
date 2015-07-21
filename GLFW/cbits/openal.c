@@ -18,8 +18,8 @@
  *   along with grid.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "glfw_foreign.h"
-
-
+#include "alc.h"
+#include "al.h"
 
 // load sound file into buffer.
 // supported file formats, according to Audio Converter Services:
@@ -85,6 +85,6 @@ uint glfw_loadBuf(ALuint buf, const char* path)
     alBufferData( buf, AL_FORMAT_MONO16, data, data_size, theIOSInit.sound_rate );
     free( data );
 */
-    return true;
+    return 1;
 
 }

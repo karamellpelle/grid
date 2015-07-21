@@ -16,7 +16,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
-module File.IOS
+module File.GLFW
   (
     fileStaticData,
     fileDynamicData,
@@ -37,30 +37,38 @@ import System.Directory
 import Paths_grid
 
 
+--------------------------------------------------------------------------------
+--  TODO: use getBinDir, getDataDir, getLibDir, getLibexecDir getSysconfDir in Paths_grid
+
 
 -- | full path to read-only application data
 fileStaticData :: FilePath -> IO FilePath
-fileStaticData = 
-    getDataFileName
+fileStaticData path = 
+#ifdef GRID_STYLE_FANCY
+    fmap ("data_fancy/" ++) $ getDataFileName path
+#endif
+#ifdef GRID_STYLE_PLAIN
+    fmap ("data_plain/" ++) $ getDataFileName path
+#endif
 
 
 -- | full path to read-write application data
 fileDynamicData :: FilePath -> IO FilePath
 fileDynamicData path =
-    fmap (++ ("/dynamic/" ++ path)) getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
+    fmap (++ ("/dynamic/" ++ path)) $ getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
 
 
 -- | full path to user file directory
 fileUser :: FilePath -> IO FilePath
 fileUser path = 
-    fmap (++ ("/user/" ++ path)) getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
+    fmap (++ ("/user/" ++ path)) $ getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
 
 -- | full path to tmp file directory
 fileTmp :: FilePath -> IO FilePath
 fileTmp path = 
-    fmap (++ ("/tmp/" ++ path)) getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
+    fmap (++ ("/tmp/" ++ path)) $ getAppUserDataDirectory "grid" -- FIXME: grid name as cabal
     --fmap (++ ("/" ++ path)) getTemporaryDirectory 
 
-createDirectoryIfMissing True path
+--TODO:createDirectoryIfMissing True path
 
 

@@ -17,7 +17,7 @@
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
 {-# LANGUAGE ForeignFunctionInterface #-}
-module OpenAL.IOS.Types where
+module OpenAL.Types where
     
 import Foreign.Ptr
 import Foreign.C

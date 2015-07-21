@@ -141,11 +141,12 @@ readByteStream path =
 
 
 readByteStreamAt :: FilePath -> UInt -> IO ByteStream
-readByteStreamAt path off = 
-    wrapByteString `fmap` do C.bracket (openBinaryFile path ReadMode) hClose $ \h -> do
-                             size <- hFileSize h
-                             hSeek h AbsoluteSeek (fI off)
-                             BS.hGet h (fI size - fI off)
+readByteStreamAt path off = do 
+    C.bracket (openBinaryFile path ReadMode) hClose $ \h -> do
+        size <- hFileSize h
+        hSeek h AbsoluteSeek (fI off)
+        bs <- BS.hGet h (fI size - fI off)
+        return $ wrapByteString bs
 
 parsingAt :: 
              Reader a -> 

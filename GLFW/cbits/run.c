@@ -18,6 +18,8 @@
  *   along with grid.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "glfw_foreign.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void glfw_init(GLFWInit* init)
 {
@@ -29,7 +31,7 @@ void glfw_init(GLFWInit* init)
     else
     {
         printf("screen_multisample:  %u\n"
-               "screen_fullscreen:   %s\n"
+               "screen_fullscreen:   %s\n",
                init->screen_multisample,
                init->screen_fullscreen == 0 ? "false" : "true" );
     }

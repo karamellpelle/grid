@@ -10,113 +10,121 @@ maintainer:          karamellpelle@hotmail.com
 -- copyright:           
 category:            Game
 build-type:          Simple
-extra-source-files:  run.c      -- to be included when creating package
-                     screen.c
-                     openal.c
-                     opengl.c
-                     keys.c
-                     tick.c 
+extra-source-files:  cbits/run.c      -- to be included when creating package
+                     cbits/screen.c
+                     cbits/openal.c
+                     cbits/opengl.c
+                     cbits/keys.c
+                     cbits/tick.c 
 cabal-version:       >=1.10
+data-dir:            ..
+data-files:          data_fancy/tmp/*.png
+                     data_fancy/guis/zero/*.png
+                     data_fancy/Run/Scene/*.caf
+                     data_fancy/Run/Scene/*.png
+                     data_fancy/Run/Output/*.png
+                     data_fancy/Run/Output/*.caf
+                     data_fancy/Memory/Output/*.caf
+                     data_fancy/shaders/*.fsh
+                     data_fancy/shaders/*.vsh
+                     data_fancy/LevelPuzzle/*.def
+                     data_fancy/LevelPuzzle/*.png
+                     data_fancy/LevelPuzzle/*.caf
+                     data_fancy/LevelPuzzle/world
+                     data_fancy/Font/*.fsh
+                     data_fancy/Font/*.vsh
+                     data_fancy/GUI/*.fsh
+                     data_fancy/GUI/*.vsh
+                     data_fancy/fonts/font_game/*.png
+                     data_fancy/players/empty/Run/world
+
+                     data_plain/Run/Scene/*.png
+                     data_plain/Run/Scene/*.caf
+                     data_plain/Run/Output/*.png
+                     data_plain/Run/Output/*.caf
+                     data_plain/gui/*.fsh
+                     data_plain/gui/*.vsh
+                     data_plain/Grid/Output/*.png
+                     data_plain/Memory/Output/*.caf
+                     data_plain/shaders/*.fsh
+                     data_plain/shaders/*.vsh
+                     data_plain/LevelPuzzle/Output/*.png
+                     data_plain/LevelPuzzle/Output/*.caf
+                     data_plain/LevelPuzzle/world
+                     data_plain/font/*.fsh
+                     data_plain/font/*.vsh
+                     data_plain/fonts/font_game/*.png
+                     data_plain/players/empty/Run/world
 
 
-Flag StyleFancy:  Output style Fancy
-    description:  Output style Simple, otherwise Plain
-    default:      True
+
+Flag StyleFancy
+  description:  Output style Simple, otherwise Plain
+  default:      True
 
 Flag BuildDebug
-    description:  Include debug in build
-    default:      True
+  description:  Include debug in build
+  default:      True
 
-if flag( StyleFancy )
-    data-dir:        ../data_fancy
-    data-files:      tmp/*.png
-                     guis/zero/*.png
-                     Run/Scene/*.caf
-                     Run/Scene/*.png
-                     Run/Output/*.png
-                     Run/Output/*.caf
-                     Memory/Output/*.caf
-                     shaders/*.fsh
-                     shaders/*.vsh
-                     LevelPuzzle/*.def
-                     LevelPuzzle/*.png
-                     LevelPuzzle/*.caf
-                     LevelPuzzle/world
-                     Font/*.fsh
-                     Font/*.vsh
-                     GUI/*.fsh
-                     GUI/*.vsh
-                     fonts/font_game/*.png
-                     players/empty/Run/world
-else
-    data-dir:        ../data_plain
-    data-files:      guis/zero/*.png
-                     Run/Scene/*.png
-                     Run/Scene/*.caf
-                     Run/Output/*.png
-                     Run/Output/*.caf
-                     gui/*.fsh
-                     gui/*.vsh
-                     Grid/Output/*.png
-                     Memory/Output/*.caf
-                     shaders/*.fsh
-                     shaders/*.vsh
-                     LevelPuzzle/Output/*.png
-                     LevelPuzzle/Output/*.caf
-                     LevelPuzzle/world
-                     font/*.fsh
-                     font/*.vsh
-                     fonts/font_game/*.png
-                     players/empty/Run/world
-
+Flag OpenGLES2
+  description:  Use OpenGL ES2 API (the only possible option, yet)
+  default:      True
 
 executable grid
-  -- other-extensions:    
-  extensions:          CPP
-  build-depends:       base >=4.8 && <4.9 -- TODO
-  ghc-options:         -DGRID_PLATFORM_GLFW
-                       -Wall
+  --other-extensions: grid specific extensions
+  build-depends:       base >= 4.8 && < 4.9,
+                       directory,
+                       mtl,
+                       parsec,
+                       bytestring,
+                       random,
+                       binary,
+                       array,
+                       filepath,
+                       ghc-prim
+
+  -- ^TODO: add my versions!
+  default-extensions:  CPP
+
+  cpp-options:         -DGRID_PLATFORM_GLFW
+  ghc-options:         -Wall
                        -fno-warn-name-shadowing
                        -fno-warn-unused-matches 
                        -fno-warn-unused-binds 
                        -fno-warn-unused-do-bind 
                        -fno-warn-missing-signatures 
-                       -fno-warn-unused-imports"
+                       -fno-warn-unused-imports
   cc-options:          -DGRID_PLATFORM_GLFW
-
   if flag( StyleFancy )
-    ghc-options:       -DGRID_STYLE_FANCY
+    cpp-options:       -DGRID_STYLE_FANCY
     cc-options:        -DGRID_STYLE_FANCY
   else
-    ghc-options:       -DGRID_STYLE_PLAIN
+    cpp-options:       -DGRID_STYLE_PLAIN
     cc-options:        -DGRID_STYLE_PLAIN
-
   if flag( BuildDebug )
-    ghc-options:       -DDEBUG
+    cpp-options:       -DDEBUG
                        -DGRID_SAFE
     --cc-options:        -DDEBUG
-    
+  if flag( OpenGLES2 )
+    cpp-options:       -DGRID_OPENGL_ES2
+
   hs-source-dirs:      ../source
   default-language:    Haskell2010
 
-  include-dirs:        c_glfw
+  include-dirs:        cbits/
   includes:            glfw_foreign.h
                        GL/glew.h
                        GLFW/glfw3.h
                        AL/al.h
                        AL/alc.h
                        AL/alext.h
-  c-sources:           run.c --TODO: c-sources-dirs?
-                       screen.c
-                       openal.c
-                       opengl.c
-                       keys.c
-                       tick.c 
-  pkgconfig-depends:   openal 
-                       glfw3
-                       glew
-                       --libpng
-                       -- pkg-config --list-all
+  c-sources:           cbits/run.c
+                       cbits/screen.c
+                       cbits/openal.c
+                       cbits/opengl.c
+                       cbits/keys.c
+                       cbits/tick.c 
+  pkgconfig-depends:   glfw3, openal, glew
   --extra-libraries:     -- C?
   --extra-lib-dirs:      -- C?? remove, use pkgconfig-depends
 
@@ -416,8 +424,8 @@ executable grid
                         MEnv.System
                         Linear
                         OpenAL.Helpers
-                        OpenAL.GLFW.Values
-                        OpenAL.GLFW.Types
+                        OpenAL.Values
+                        OpenAL.Types
                         OpenGL.Shade
                         OpenGL.ES2.Values
                         OpenGL.ES2.Types
@@ -425,4 +433,4 @@ executable grid
                         OpenGL.ES2
                         OpenGL.Helpers
                         MEnv
-                        Paths_grid -- access to data files 
+                        Paths_grid

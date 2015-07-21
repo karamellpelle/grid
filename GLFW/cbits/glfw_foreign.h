@@ -31,6 +31,11 @@
 //#include <GLFW/glfw3native.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+// types
+
+typedef uint32_t uint;
+
+////////////////////////////////////////////////////////////////////////////////
 // run MEnv
 //
 
@@ -63,7 +68,7 @@ extern HaskellCall haskell_begin;
 
 extern HaskellCall haskell_iterate;
 
-void ios_init(IOSInit* );
+void glfw_init(GLFWInit* );
 
 void ios_main(HaskellCall , HaskellCall );
 
@@ -82,7 +87,7 @@ void glfw_screenSetRate(uint rate);
 // OpenGL
 //
 
-void glfw_loadTexPreMult(GLenum , const char*, GLuint* , GLuint* , GLenum );
+uint glfw_loadTexPreMult(GLenum , const char*, GLuint* , GLuint* , GLenum );
 
 
 ////////////////////////////////////////////////////////////////////////////////

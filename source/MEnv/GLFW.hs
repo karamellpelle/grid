@@ -51,6 +51,7 @@ newtype MEnv res a =
     }
     deriving
       (
+          Applicative,
           Monad,
           MonadIO,
           MonadState res,
@@ -70,7 +71,7 @@ runMEnvGLFW :: Init -> IO res -> (res -> IO ()) ->
               (b -> MEnv res c) -> 
               a ->
               IO c
-runMEnvIOS init loadResource unloadResource
+runMEnvGLFW init loadResource unloadResource
            begin
            iterate
            end
@@ -121,10 +122,16 @@ runMEnvIOS init loadResource unloadResource
     return c
 
 
+
+-- | create 'void (*fun_ptr)()' of 'IO ()'
+foreign import ccall "wrapper" mkHaskellCall
+    :: IO () -> IO (FunPtr (IO ()))
+
+
 -- | void ios_init(IOSInit* )
-foreign import ccall "glfw_init" ios_init
+foreign import ccall unsafe "glfw_init" glfw_init
     :: Ptr Init -> IO ()
 
 -- | void ios_main(void (*begin)(), void (*iterate)())
-foreign import ccall safe "glfw_iterate" ios_main
+foreign import ccall safe "glfw_main" glfw_main
     :: FunPtr (IO ()) -> FunPtr (IO ()) -> IO ()

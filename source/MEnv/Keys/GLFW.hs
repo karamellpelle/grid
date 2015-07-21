@@ -17,7 +17,7 @@
 -- along with grid.  If not, see <http://www.gnu.org/licenses/>.
 --
 {-# LANGUAGE ForeignFunctionInterface #-}
-module MEnv.Keys.IOS
+module MEnv.Keys.GLFW
   ( 
     keysClear,
 

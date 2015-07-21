@@ -25,7 +25,13 @@ module MEnv.Resource
   ) where
 
 
+#ifdef GRID_PLATFORM_IOS
 import MEnv.IOS
+#endif
+#ifdef GRID_PLATFORM_GLFW
+import MEnv.GLFW
+#endif
+
 import qualified Control.Monad.State as MState
 
 

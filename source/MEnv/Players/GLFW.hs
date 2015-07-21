@@ -60,6 +60,7 @@ playersAuthenticateLocalPlayer = io $
 playersHandleLocalPlayer :: a -> (Player -> a) -> MEnv res a
 playersHandleLocalPlayer a f = io $ do
     putStrLn "GLFW.playersHandleLocalPlayer"
+    return a
 
 
 
@@ -67,6 +68,7 @@ playersHandleLocalPlayer a f = io $ do
 playersLocalPlayer :: MEnv res (Maybe Player)
 playersLocalPlayer = io $ do
     putStrLn "GLFW.playersLocalPlayer"
+    return Nothing
 
 
 -- | send value 'alpha' (in [0, 1]) to achievement 'ach', for local player
