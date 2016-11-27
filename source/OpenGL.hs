@@ -22,9 +22,14 @@ module OpenGL
 #ifdef GRID_OPENGL_ES2
 -- OpenGL ES 2.0
     module OpenGL.ES2,
-    module OpenGL.ES2.Ext,
     module OpenGL.ES2.Values,
     module OpenGL.ES2.Types,
+#endif
+#ifdef GRID_PLATFORM_IOS
+    module OpenGL.ES2.ExtIOS,
+#endif
+#ifdef GRID_PLATFORM_GLFW
+    module OpenGL.ES2.ExtGLFW,
 #endif
 
     module Foreign.Storable,
@@ -48,9 +53,12 @@ import Data.Bits
 
 #ifdef GRID_OPENGL_ES2
 import OpenGL.ES2
-import OpenGL.ES2.Ext
 import OpenGL.ES2.Values
 import OpenGL.ES2.Types
 #endif
-
-
+#ifdef GRID_PLATFORM_IOS
+import OpenGL.ES2.ExtIOS
+#endif
+#ifdef GRID_PLATFORM_GLFW
+import OpenGL.ES2.ExtGLFW
+#endif

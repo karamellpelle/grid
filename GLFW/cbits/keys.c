@@ -25,6 +25,21 @@ void glfw_keysClear()
 
 }
 
+uint glfw_keysTouchHandlePointReleased(float* x, float* y)
+{
+    return 0;
+}
+
+uint glfw_keysTouchHandlePointDrag(double* ticks, float* x0, float* y0, float* x1, float* y1)
+{
+    return 0;
+}
+
+uint glfw_keysTouchHandlePointDrop(double* ticks, float* x0, float* y0, float* x1, float* y1)
+{
+    return 0;
+}
+
 uint glfw_keysTouchHandlePointTouched(float* x, float* y)
 {
     return 0;

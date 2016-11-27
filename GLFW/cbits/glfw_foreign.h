@@ -52,13 +52,13 @@ typedef struct
 } GLFWInit;
 
 
+// the canonical init object
 extern GLFWInit theGLFWInit;
 
 
 // type of callback into Haskell
 typedef void (*HaskellCall)();
 
-extern GLFWInit theGLFWInit;
 
 
 // type of callback into Haskell
@@ -70,7 +70,7 @@ extern HaskellCall haskell_iterate;
 
 void glfw_init(GLFWInit* );
 
-void ios_main(HaskellCall , HaskellCall );
+void glfw_main(HaskellCall , HaskellCall );
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +101,12 @@ uint glfw_loadBuf(ALuint , const char* );
 //
 
 void glfw_keysClear();
+
+uint glfw_keysTouchHandlePointReleased(float* , float* );
+
+uint glfw_keysTouchHandlePointDrag(double* , float* , float* , float* , float* );
+
+uint glfw_keysTouchHandlePointDrop(double* , float*, float*, float*, float* );
 
 uint glfw_keysTouchHandlePointTouched(float* x, float* y);
 
@@ -161,3 +167,8 @@ void glfw_tickClockFSetSpeed(double t);
 double glfw_tickClockFGetSpeed();
 
 
+////////////////////////////////////////////////////////////////////////////////
+// helpers
+//
+
+void foreign_screenshot(GLenum, GLuint, uint, uint );

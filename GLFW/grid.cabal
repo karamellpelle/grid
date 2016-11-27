@@ -10,12 +10,6 @@ maintainer:          karamellpelle@hotmail.com
 -- copyright:           
 category:            Game
 build-type:          Simple
-extra-source-files:  cbits/run.c      -- to be included when creating package
-                     cbits/screen.c
-                     cbits/openal.c
-                     cbits/opengl.c
-                     cbits/keys.c
-                     cbits/tick.c 
 cabal-version:       >=1.10
 data-dir:            ..
 data-files:          data_fancy/tmp/*.png
@@ -72,7 +66,7 @@ Flag OpenGLES2
 
 executable grid
   --other-extensions: grid specific extensions
-  build-depends:       base >= 4.8 && < 4.9,
+  build-depends:       base >= 4.8,
                        directory,
                        mtl,
                        parsec,
@@ -114,6 +108,9 @@ executable grid
   include-dirs:        cbits/
   includes:            glfw_foreign.h
                        GL/glew.h
+                       GLES2/gl2.h
+                       --GLES2/gl2ext.h
+                       GLES2/gl2platform.h
                        GLFW/glfw3.h
                        AL/al.h
                        AL/alc.h
@@ -124,7 +121,8 @@ executable grid
                        cbits/opengl.c
                        cbits/keys.c
                        cbits/tick.c 
-  pkgconfig-depends:   glfw3, openal, glew
+                       cbits/helpers.c 
+  pkgconfig-depends:   glew, glesv2, glfw3, openal
   --extra-libraries:     -- C?
   --extra-lib-dirs:      -- C?? remove, use pkgconfig-depends
 
@@ -429,7 +427,7 @@ executable grid
                         OpenGL.Shade
                         OpenGL.ES2.Values
                         OpenGL.ES2.Types
-                        OpenGL.ES2.Ext
+                        OpenGL.ES2.ExtGLFW
                         OpenGL.ES2
                         OpenGL.Helpers
                         MEnv

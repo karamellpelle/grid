@@ -18,32 +18,9 @@
  *   along with grid.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "glfw_foreign.h"
-#include <stdlib.h>
-#include <stdio.h>
-
-// the canonical init object (configuration)
-//
-GLFWInit theGLFWInit;
 
 
-
-void glfw_init(GLFWInit* init)
-{
-    theGLFWInit = *init;
-    if ( init == 0 )
-    {
-        printf("no 'init' in glfw_init\n");
-    }
-    else
-    {
-        printf("screen_multisample:  %u\n"
-               "screen_fullscreen:   %s\n",
-               init->screen_multisample,
-               init->screen_fullscreen == 0 ? "false" : "true" );
-    }
-}
-
-void glfw_main(HaskellCall begin, HaskellCall iterate)
+void foreign_screenshot(GLenum target, GLuint tex, uint wth, uint hth)
 {
 
 }

@@ -460,8 +460,12 @@ loadTexPreMult target intfmt path =
 --------------------------------------------------------------------------------
 --  
 
+-- glDiscardFramebufferEXT is an Apple thing: 
+-- https://www.khronos.org/registry/gles/extensions/EXT/EXT_discard_framebuffer.txt
+--
 discardFramebuffer :: GLenum -> [GLenum] -> IO ()
 discardFramebuffer target attchs = do
+#ifdef GRID_PLATFORM_IOS
     let len = length attchs
     allocaArray len $ \ptr -> do
         helper attchs 0 ptr 
@@ -472,3 +476,6 @@ discardFramebuffer target attchs = do
           helper as (ix + 1) ptr
       helper [] ix ptr = 
           return ()
+#else
+    return ()
+#endif
