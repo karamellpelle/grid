@@ -36,6 +36,7 @@ import Foreign.Marshal.Alloc
 import Data.IORef
 import Control.Monad.Trans
 import Control.Monad.State
+import MyPrelude
 
 import MEnv.GLFW.Init
 
@@ -77,61 +78,52 @@ runMEnvGLFW init loadResource unloadResource
            end
            a = do
 
-    -- initialize environment
+    -- initialize GLFW environment
     alloca $ \ptr -> do
         poke ptr init
         glfw_init ptr
     
-    refEnv <- newIORef $ error "runIOSMEnv: refEnv undefined"
-    refB <- newIORef $ error "runIOSMEnv: refB undefined"
+    -- create GameData
+    env <- loadResource
 
-    -- a -> m b
-    -- create callback into Haskell from Foreign
-    funptrBegin <- mkHaskellCall $ do
-        -- create resource
-        env <- loadResource
+    -- run the game
+    (c, env') <- runStateT (menvUnwrap $ game a) env
 
-        (b, env') <- runStateT (menvUnwrap $ begin a) env
-        writeIORef refB b
-        writeIORef refEnv env'
-
-    -- b -> m b
-    -- create callback into Haskell from Foreign
-    funptrIterate <- mkHaskellCall $ do
-        env <- readIORef refEnv
-        b <- readIORef refB
-        (b', env') <- runStateT (menvUnwrap $ iterate b) env
-        writeIORef refB b'
-        writeIORef refEnv env'
-
-    -- call Haskell from Foreign. this function should not return. 
-    glfw_main funptrBegin funptrIterate
-
-    -- GLFW complete, clean up
-
-    freeHaskellFunPtr funptrIterate
-    freeHaskellFunPtr funptrBegin
-
-    -- b -> m c
-    b <- readIORef refB
-    env <- readIORef refEnv
-    (c, env') <- runStateT (menvUnwrap $ end b) env
-
+    -- clean up GameData
     unloadResource env'
 
     return c
 
-
-
--- | create 'void (*fun_ptr)()' of 'IO ()'
-foreign import ccall "wrapper" mkHaskellCall
-    :: IO () -> IO (FunPtr (IO ()))
+    where
+      game =
+          begin >=>         -- a -> MEnv' b
+          iterate' >=>      -- b -> MEnv' b
+          end               -- b -> MEnv' c
+      iterate' = \b -> do
+          io $ glfw_frame_begin
+          b' <- iterate b
+          io $ glfw_frame_end
+          return b
+          
+      --iterate' = \(run, _, stack) ->
+      --    case stack of 
+      --        []      ->  return run
+      --        (i:is)  -> do
+      --            -- iterate inside GLFW frame
+      --            io $ glfw_frame_begin
+      --            (a', b', top) <- (iteration i) a b
+      --            io $ glfw_frame_end
+      --            -- loop 
+      --            iterate' (a', b', top ++ is)
 
 
 -- | void ios_init(IOSInit* )
 foreign import ccall unsafe "glfw_init" glfw_init
     :: Ptr Init -> IO ()
 
--- | void ios_main(void (*begin)(), void (*iterate)())
-foreign import ccall safe "glfw_main" glfw_main
-    :: FunPtr (IO ()) -> FunPtr (IO ()) -> IO ()
+foreign import ccall unsafe "glfw_frame_begin" glfw_frame_begin
+    :: IO ()
+
+foreign import ccall unsafe "glfw_frame_end" glfw_frame_end
+    :: IO ()
+

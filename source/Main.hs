@@ -75,6 +75,7 @@ main = do
    
 
     -- run MEnv!
+    -- loadGameData creates the real RunWorld; not the emtpy below
     let a = ()
 #ifdef GRID_PLATFORM_IOS
     c <- runMEnvIOS init loadGameData unloadGameData 
@@ -131,7 +132,6 @@ main = do
 
       iterate (a, b, stack) = do
           iterateABStack a b stack
-
 
       end (run, b, stack) = do
           saveRunWorld run

@@ -22,12 +22,12 @@
 
 double glfw_tickGet()
 {
-    return 0.0;
+    return glfwGetTime();
 }
 
 void glfw_tickSet(double t)
 {
-    
+   glfwSetTime( t ); 
 }
 
 double glfw_tickClockAGet()

@@ -26,8 +26,8 @@
 // expose native GL
 // FIXME: set this based on Platform and context type!!
 //        see http://www.glfw.org/docs/latest/group__native.html
-#define GLFW_EXPOSE_NATIVE_X11
-#define GLFW_EXPOSE_NATIVE_GLX // or EGL??
+//#define GLFW_EXPOSE_NATIVE_X11
+//#define GLFW_EXPOSE_NATIVE_GLX // or EGL??
 //#include <GLFW/glfw3native.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,22 +56,10 @@ typedef struct
 extern GLFWInit theGLFWInit;
 
 
-// type of callback into Haskell
-typedef void (*HaskellCall)();
-
-
-
-// type of callback into Haskell
-typedef void (*HaskellCall)();
-
-extern HaskellCall haskell_begin;
-
-extern HaskellCall haskell_iterate;
-
 void glfw_init(GLFWInit* );
 
-void glfw_main(HaskellCall , HaskellCall );
 
+extern GLFWwindow* g_window;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Screen

@@ -44,11 +44,12 @@ import Paths_grid
 -- | full path to read-only application data
 fileStaticData :: FilePath -> IO FilePath
 fileStaticData path = 
+    --fmap ("data_fancy/" ++) $ getDataFileName path
 #ifdef GRID_STYLE_FANCY
-    fmap ("data_fancy/" ++) $ getDataFileName path
+    return $ "data_fancy/" ++ path
 #endif
 #ifdef GRID_STYLE_PLAIN
-    fmap ("data_plain/" ++) $ getDataFileName path
+    return $ "data_plain/" ++ path
 #endif
 
 
