@@ -19,7 +19,7 @@
 module Game.Output.Drawer
   (
     Drawer (..),
-  )
+  ) where
 
 import Game.MEnv
 import OpenGL
@@ -31,5 +31,5 @@ data Drawer shader =
     Drawer
     {
         drawerDraw :: Tick -> MEnv' (),
-        drawerStep :: Tick -> MEnv' (Maybe Drawer),
+        drawerStep :: Tick -> MEnv' (Maybe Drawer)
     } 

@@ -85,7 +85,7 @@ main = do
     c <- runMEnvGLFW init loadGameData unloadGameData 
                      begin iterate end a
 #endif
-
+    
     return ()
 
     where

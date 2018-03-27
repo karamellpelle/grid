@@ -52,8 +52,9 @@ data-files:          data_fancy/tmp/*.png
 
 
 
+
 Flag StyleFancy
-  description:  Output style Simple, otherwise Plain
+  description:  Output style Fancy, otherwise Plain (NOTE: for style Plain, you need to uncomment Fancy-lines and comment Fancy-lines. I do not know how to do that. Or, I haven't used time on that :) ). See also https://stackoverflow.com/questions/46621397/conditional-compilation-of-library-using-test-suite 
   default:      True
 
 Flag BuildDebug
@@ -89,6 +90,7 @@ executable grid
                        -fno-warn-missing-signatures 
                        -fno-warn-unused-imports
   cc-options:          -DGRID_PLATFORM_GLFW
+                       -DGLEW_EGL                     
   if flag( StyleFancy )
     cpp-options:       -DGRID_STYLE_FANCY
     cc-options:        -DGRID_STYLE_FANCY
@@ -141,16 +143,16 @@ executable grid
                         Game.Values
                         Game.Font
                         Game.Run.RunData.Fancy
-                        Game.Run.RunData.Plain
-                        Game.Run.RunData.Plain.SoundRun
-                        Game.Run.RunData.Plain.ShadeCorners
-                        Game.Run.RunData.Plain.ShadeCube
-                        Game.Run.RunData.Plain.ShadeScreenshot
-                        Game.Run.RunData.Plain.ShadeScenePause
-                        Game.Run.RunData.Plain.SoundScene
-                        Game.Run.RunData.Plain.ShadeSceneBegin
-                        Game.Run.RunData.Plain.ShadeSceneKonami
-                        Game.Run.RunData.Plain.ShadeScene
+                        --Game.Run.RunData.Plain
+                        --Game.Run.RunData.Plain.SoundRun
+                        --Game.Run.RunData.Plain.ShadeCorners
+                        --Game.Run.RunData.Plain.ShadeCube
+                        --Game.Run.RunData.Plain.ShadeScreenshot
+                        --Game.Run.RunData.Plain.ShadeScenePause
+                        --Game.Run.RunData.Plain.SoundScene
+                        --Game.Run.RunData.Plain.ShadeSceneBegin
+                        --Game.Run.RunData.Plain.ShadeSceneKonami
+                        --Game.Run.RunData.Plain.ShadeScene
                         Game.Run.RunData.Fancy.SoundRun
                         Game.Run.RunData.Fancy.ShadeCube
                         Game.Run.RunData.Fancy.ShadeScreenshot
@@ -165,14 +167,14 @@ executable grid
                         Game.Run.File
                         Game.Run.RunWorld
                         Game.Run.Scene.Fancy
-                        Game.Run.Scene.Plain
-                        Game.Run.Scene.Plain.ShadeCorners
-                        Game.Run.Scene.Plain.ShadeScreenshot
-                        Game.Run.Scene.Plain.ShadeScenePause
-                        Game.Run.Scene.Plain.SoundScene
-                        Game.Run.Scene.Plain.ShadeSceneBegin
-                        Game.Run.Scene.Plain.ShadeSceneKonami
-                        Game.Run.Scene.Plain.ShadeScene
+                        --Game.Run.Scene.Plain
+                        --Game.Run.Scene.Plain.ShadeCorners
+                        --Game.Run.Scene.Plain.ShadeScreenshot
+                        --Game.Run.Scene.Plain.ShadeScenePause
+                        --Game.Run.Scene.Plain.SoundScene
+                        --Game.Run.Scene.Plain.ShadeSceneBegin
+                        --Game.Run.Scene.Plain.ShadeSceneKonami
+                        --Game.Run.Scene.Plain.ShadeScene
                         Game.Run.Scene.Fancy.ShadeScreenshot
                         Game.Run.Scene.Fancy.Present
                         Game.Run.Scene.Fancy.ShadeScenePause
@@ -199,14 +201,14 @@ executable grid
                         Game.Run.Eggs
                         Game.Run.Helpers.Fancy
                         Game.Run.Helpers.Make
-                        Game.Run.Helpers.Plain
+                        --Game.Run.Helpers.Plain
                         Game.Run.Helpers.World
                         Game.Run.Helpers.Message
                         Game.Run.Eggs.SequenceEater
                         Game.Run.Eggs.Do
                         Game.Run.Eggs.Button
                         Game.Run.RunWorld.Scene.Fancy
-                        Game.Run.RunWorld.Scene.Plain
+                        --Game.Run.RunWorld.Scene.Plain
                         Game.Run.RunWorld.Scene.Fancy.Values
                         Game.Run.RunWorld.Scene.Fancy.Tweak
                         Game.Run.RunWorld.Scene.Fancy.Noise
@@ -214,19 +216,19 @@ executable grid
                         Game.Run.RunWorld.Face
                         Game.Run.RunWorld.Scene
                         Game.Run.RunWorld.Screenshot.Fancy
-                        Game.Run.RunWorld.Screenshot.Plain
+                        --Game.Run.RunWorld.Screenshot.Plain
                         Game.Run.RunWorld.OutputState.Fancy
-                        Game.Run.RunWorld.OutputState.Plain
+                        --Game.Run.RunWorld.OutputState.Plain
                         Game.Run.RunWorld.Message
                         Game.Run.RunWorld.Screenshot
                         Game.Run.Scene
                         Game.Run.Helpers
                         Game.Run.Output.Fancy
-                        Game.Run.Output.Plain
-                        Game.Run.Output.Plain.SoundRun
-                        Game.Run.Output.Plain.ShadeCube
-                        Game.Run.Output.Plain.Sound
-                        Game.Run.Output.Plain.Screen
+                        --Game.Run.Output.Plain
+                        --Game.Run.Output.Plain.SoundRun
+                        --Game.Run.Output.Plain.ShadeCube
+                        --Game.Run.Output.Plain.Sound
+                        --Game.Run.Output.Plain.Screen
                         Game.Run.Output.Fancy.SoundRun
                         Game.Run.Output.Fancy.ShadeCube
                         Game.Run.Output.Fancy.CornerData
@@ -237,7 +239,7 @@ executable grid
                         Game.Run.Do.Grid.Modify
                         Game.Run.Do.Input
                         Game.Values.Fancy
-                        Game.Values.Plain
+                        --Game.Values.Plain
                         Game.Values.Eggs
                         Game.GameData
                         Game.Grid
@@ -254,17 +256,17 @@ executable grid
                         Game.Grid.GridWorld.Segment
                         Game.Grid.GridWorld.SegmentArray
                         Game.Grid.GridWorld.Path.Fancy
-                        Game.Grid.GridWorld.Path.Plain
+                        --Game.Grid.GridWorld.Path.Plain
                         Game.Grid.Helpers.Path
                         Game.Grid.Helpers.Camera
                         Game.Grid.Helpers.Segment
                         Game.Grid.StepDT
                         Game.Grid.GridData.Fancy
-                        Game.Grid.GridData.Plain
-                        Game.Grid.GridData.Plain.ShadePath
-                        Game.Grid.GridData.Plain.ShadeSpaceBox
-                        Game.Grid.GridData.Plain.ColorMap
-                        Game.Grid.GridData.Plain.SoundPath
+                        --Game.Grid.GridData.Plain
+                        --Game.Grid.GridData.Plain.ShadePath
+                        --Game.Grid.GridData.Plain.ShadeSpaceBox
+                        --Game.Grid.GridData.Plain.ColorMap
+                        --Game.Grid.GridData.Plain.SoundPath
                         Game.Grid.GridData.Fancy.ShadePath
                         Game.Grid.GridData.Fancy.ColorMap
                         Game.Grid.GridData.Fancy.ShadeGeneral
@@ -274,10 +276,10 @@ executable grid
                         Game.Grid.GridWorld
                         Game.Grid.Helpers
                         Game.Grid.Output.Fancy
-                        Game.Grid.Output.Plain
-                        Game.Grid.Output.Plain.ShadePath
-                        Game.Grid.Output.Plain.ShadeSpaceBox
-                        Game.Grid.Output.Plain.SoundGrid
+                        --Game.Grid.Output.Plain
+                        --Game.Grid.Output.Plain.ShadePath
+                        --Game.Grid.Output.Plain.ShadeSpaceBox
+                        --Game.Grid.Output.Plain.SoundGrid
                         Game.Grid.Output.Fancy.ShadePath
                         Game.Grid.Output.Fancy.ShadeGeneral
                         Game.Grid.Output.Fancy.ShadeSpace
@@ -288,19 +290,19 @@ executable grid
                         Game.Memory.Do
                         Game.Memory.MemoryWorld.OutputState
                         Game.Memory.MemoryWorld.OutputState.Fancy
-                        Game.Memory.MemoryWorld.OutputState.Plain
+                        --Game.Memory.MemoryWorld.OutputState.Plain
                         Game.Memory.MemoryData.Fancy
-                        Game.Memory.MemoryData.Plain
-                        Game.Memory.MemoryData.Plain.SoundMemory
+                        --Game.Memory.MemoryData.Plain
+                        --Game.Memory.MemoryData.Plain.SoundMemory
                         Game.Memory.MemoryData.Fancy.SoundMemory
                         Game.Memory.Helpers.Make
                         Game.Memory.Helpers
                         Game.Memory.Output.Fancy
-                        Game.Memory.Output.Plain
-                        Game.Memory.Output.Plain.SoundMemory
-                        Game.Memory.Output.Plain.State
-                        Game.Memory.Output.Plain.Sound
-                        Game.Memory.Output.Plain.Screen
+                        --Game.Memory.Output.Plain
+                        --Game.Memory.Output.Plain.SoundMemory
+                        --Game.Memory.Output.Plain.State
+                        --Game.Memory.Output.Plain.Sound
+                        --Game.Memory.Output.Plain.Screen
                         Game.Memory.Output.Fancy.SoundMemory
                         Game.Memory.Output.Fancy.State
                         Game.Memory.Output.Fancy.Sound
@@ -315,16 +317,16 @@ executable grid
                         Game.LevelPuzzle
                         Game.World
                         Game.Helpers.Prewarm.Fancy
-                        Game.Helpers.Prewarm.Plain
+                        --Game.Helpers.Prewarm.Plain
                         Game.Helpers.Prewarm
                         Game.Helpers.World
                         Game.LevelPuzzle.Output
                         Game.LevelPuzzle.File
                         Game.LevelPuzzle.LevelPuzzleData.Fancy
-                        Game.LevelPuzzle.LevelPuzzleData.Plain
-                        Game.LevelPuzzle.LevelPuzzleData.Plain.ShadeWall
-                        Game.LevelPuzzle.LevelPuzzleData.Plain.SoundLevelPuzzle
-                        Game.LevelPuzzle.LevelPuzzleData.Plain.ShadeDot
+                        --Game.LevelPuzzle.LevelPuzzleData.Plain
+                        --Game.LevelPuzzle.LevelPuzzleData.Plain.ShadeWall
+                        --Game.LevelPuzzle.LevelPuzzleData.Plain.SoundLevelPuzzle
+                        --Game.LevelPuzzle.LevelPuzzleData.Plain.ShadeDot
                         Game.LevelPuzzle.LevelPuzzleData.Fancy.ShadeWall
                         Game.LevelPuzzle.LevelPuzzleData.Fancy.SoundLevelPuzzle
                         Game.LevelPuzzle.LevelPuzzleData.Fancy.ShadeDot
@@ -339,25 +341,25 @@ executable grid
                         Game.LevelPuzzle.LevelPuzzleWorld.Content
                         Game.LevelPuzzle.LevelPuzzleWorld.OutputState
                         Game.LevelPuzzle.LevelPuzzleWorld.Content.Fancy
-                        Game.LevelPuzzle.LevelPuzzleWorld.Content.Plain
+                        --Game.LevelPuzzle.LevelPuzzleWorld.Content.Plain
                         Game.LevelPuzzle.LevelPuzzleWorld.RoomIx
                         Game.LevelPuzzle.LevelPuzzleWorld.Room
                         Game.LevelPuzzle.LevelPuzzleWorld.OutputState.Fancy
-                        Game.LevelPuzzle.LevelPuzzleWorld.OutputState.Plain
+                        --Game.LevelPuzzle.LevelPuzzleWorld.OutputState.Plain
                         Game.LevelPuzzle.Iteration.State
-                        Game.LevelPuzzle.Helpers.PlayerPath
+                        --Game.LevelPuzzle.Helpers.PlayerPath -- doesn't seem to be used...
                         Game.LevelPuzzle.Helpers.Make
                         Game.LevelPuzzle.LevelPuzzleWorld
                         Game.LevelPuzzle.LevelPuzzleData
                         Game.LevelPuzzle.Helpers
                         Game.LevelPuzzle.Output.Fancy
-                        Game.LevelPuzzle.Output.Plain
-                        Game.LevelPuzzle.Output.Plain.ShadeWall
-                        Game.LevelPuzzle.Output.Plain.SoundLevelPuzzle
-                        Game.LevelPuzzle.Output.Plain.State
-                        Game.LevelPuzzle.Output.Plain.Sound
-                        Game.LevelPuzzle.Output.Plain.ShadeDot
-                        Game.LevelPuzzle.Output.Plain.Screen
+                        --Game.LevelPuzzle.Output.Plain
+                        --Game.LevelPuzzle.Output.Plain.ShadeWall
+                        --Game.LevelPuzzle.Output.Plain.SoundLevelPuzzle
+                        --Game.LevelPuzzle.Output.Plain.State
+                        --Game.LevelPuzzle.Output.Plain.Sound
+                        --Game.LevelPuzzle.Output.Plain.ShadeDot
+                        --Game.LevelPuzzle.Output.Plain.Screen
                         Game.LevelPuzzle.Output.Fancy.ShadeWall
                         Game.LevelPuzzle.Output.Fancy.SoundLevelPuzzle
                         Game.LevelPuzzle.Output.Fancy.State
@@ -400,9 +402,8 @@ executable grid
                         Game.Step
                         Game.Helpers
                         Game.MEnv
-                        Game.Output.Drawer
+                        --Game.Output.Drawer -- doesn't seem to be used...
                         Game.Iteration
-                        Main
                         MEnv.Resource
                         MEnv.Tick
                         MEnv.Players

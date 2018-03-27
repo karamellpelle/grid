@@ -76,6 +76,25 @@ loadSoundScene = do
     where
       -- note: remember to update valueNoisesSize!!
       names = [ "noise0.caf", "noise1.caf", "noise2.caf", "noise3.caf" ]
+
+      valueSoundSceneNoiseConeInnerAngle :: ALfloat
+      valueSoundSceneNoiseConeInnerAngle = 360.0
+
+      valueSoundSceneNoiseConeOuterAngle :: ALfloat
+      valueSoundSceneNoiseConeOuterAngle = 360.0
+
+      valueSoundSceneNoiseConeOuterGain :: ALfloat
+      valueSoundSceneNoiseConeOuterGain = 1.0
+
+      valueSoundSceneNoiseReferenceDistance :: ALfloat
+      valueSoundSceneNoiseReferenceDistance = 50.0 
+
+      valueSoundSceneNoiseMaxDistance :: ALfloat
+      valueSoundSceneNoiseMaxDistance = 1024.0
+
+      valueSoundSceneNoiseRolloffFactor :: ALfloat
+      valueSoundSceneNoiseRolloffFactor = 3.0
+
       
 unloadSoundScene :: SoundScene -> IO ()
 unloadSoundScene sound = do
@@ -85,6 +104,17 @@ unloadSoundScene sound = do
     forM_ (range 0 valueSoundSceneNoiseSize) $ \ix -> 
         delBuf $ noisearrayAt (soundSceneNoiseBufs sound) ix
 
+
+--------------------------------------------------------------------------------
+--  Noises
+
+valueSoundSceneNoises :: [ String ]
+valueSoundSceneNoises =
+      [ "noise0.caf", "noise1.caf", "noise2.caf", "noise3.caf" ]
+      
+valueSoundSceneNoiseSize :: UInt
+valueSoundSceneNoiseSize = 
+    length' valueSoundSceneNoises
 
 
 --------------------------------------------------------------------------------

@@ -111,7 +111,7 @@ loadShadeDot = do
           glTexParameteri gl_TEXTURE_2D gl_TEXTURE_WRAP_S $ fI gl_CLAMP_TO_EDGE
           glTexParameteri gl_TEXTURE_2D gl_TEXTURE_WRAP_T $ fI gl_CLAMP_TO_EDGE
           path <- fileStaticData path
-          loadTexPreMult gl_TEXTURE_2D path
+          loadTexPreMult gl_TEXTURE_2D gl_RGBA path
           glGenerateMipmap gl_TEXTURE_2D 
           return tex
 
