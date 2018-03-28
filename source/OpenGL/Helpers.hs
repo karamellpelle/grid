@@ -443,7 +443,8 @@ loadTexPreMult target intfmt path =
 
     where
       debugTag = "loadTexPreMult " ++ debugTarget ++ " " ++ debugIntFmt ++ " " ++ 
-                 takeFileName path ++ ": "
+                 --takeFileName path ++ ": "
+                 path ++ ": "
       debugTarget = case target of
           0x0de1    -> "GL_TEXTURE_2D"
           0x8515    -> "GL_TEXTURE_CUBE_MAP_POSITIVE_X"
