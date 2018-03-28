@@ -89,6 +89,8 @@ executable grid
                        -fno-warn-unused-do-bind 
                        -fno-warn-missing-signatures 
                        -fno-warn-unused-imports
+                       -fno-overlapping-patterns
+                       -fno-dodgy-exports
   cc-options:          -DGRID_PLATFORM_GLFW
                        -DGLEW_EGL                     
   if flag( StyleFancy )
@@ -109,7 +111,7 @@ executable grid
 
   include-dirs:        cbits/
   includes:            glfw_foreign.h
-                       GL/glew.h
+                       --GL/glew.h
                        GLES2/gl2.h
                        --GLES2/gl2ext.h
                        GLES2/gl2platform.h
@@ -124,7 +126,9 @@ executable grid
                        cbits/keys.c
                        cbits/tick.c 
                        cbits/helpers.c 
-  pkgconfig-depends:   glew, glesv2, glfw3, openal
+  --pkgconfig-depends:   glew, glesv2, glfw3, openal
+  pkgconfig-depends:   gl, glesv2, glfw3, openal 
+  --                   ^ libglvnd gives us GLES2
   --extra-libraries:     -- C?
   --extra-lib-dirs:      -- C?? remove, use pkgconfig-depends
 

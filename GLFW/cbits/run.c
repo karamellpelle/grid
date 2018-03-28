@@ -61,6 +61,7 @@ void glfw_init(GLFWInit* init)
         if ( !glfwInit() )
         {
             printf( "cbits: glfwInit() failed!\n" );
+            return; // FIXME: error return code back to Haskell
         }
 
         GLFWmonitor* monitor = 0;
@@ -73,7 +74,9 @@ void glfw_init(GLFWInit* init)
         glfwWindowHint( GLFW_CLIENT_API, GLFW_OPENGL_ES_API );
         glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 2 );
 
+        // we want decorated window (unless fullscreen)
         //glfwWindowHint( GLFW_DECORATED, decorate );               
+        glfwWindowHint( GLFW_DECORATED, true );               
 
         // size
         uint wth = 640;
@@ -86,20 +89,21 @@ void glfw_init(GLFWInit* init)
 
         // create OpenGL (context and window)
         g_window = glfwCreateWindow( wth, hth, "https://github.com/karamellpelle/grid", monitor, 0 );
-
-        // set GL context as g_window
-        glfwMakeContextCurrent( g_window );
         if ( !g_window )
         {
             printf( "cbits: could not create window\n" );
+            return; // FIXME: error return code back to Haskell
         }
 
+        // set current GL context to g_window's context
+        glfwMakeContextCurrent( g_window );
+
         // we now have a context, init GLEW
-        GLenum err = glewInit();
-        if ( err != GLEW_OK )
-        {
-            printf( "cbits: could not init GLEW (%s)\n", glewGetErrorString( err ) );
-        }
+        //GLenum err = glewInit();
+        //if ( err != GLEW_OK )
+        //{
+        //    printf( "cbits: could not init GLEW (%s)\n", glewGetErrorString( err ) );
+        //}
 
     }
 }

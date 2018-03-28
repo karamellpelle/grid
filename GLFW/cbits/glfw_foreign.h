@@ -17,11 +17,22 @@
  *   You should have received a copy of the GNU General Public License
  *   along with grid.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+// NOTE: GLFW is misleading. Grid has a build platform GLFW
+// (GRID_PLATFORM_GLFW). But GLFW is actually a library for creating a GL
+// context and controller input. In our meaning, the platform GLFW is a bit
+// more, it's the IO environment. Which means that for example the utility 
+// function for loading OpenAL buffers is part of GRID_PLATFORM_GLFW
+// A better name would be GLFW_PLATFORM_DESKTOP
 #include <stdint.h> 
+#include <stdbool.h> 
 //#include <math.h>
-#include <GL/glew.h>    // must be done before GLFW!!
+//#include <GL/glew.h>    // must be done before GLFW!!
 #include <GLFW/glfw3.h> // FIXME: build option?
+
+// OpenAL (for glfw_loadBuf)
 #include <AL/al.h>
+#include <AL/alc.h>
 
 // expose native GL
 // FIXME: set this based on Platform and context type!!
@@ -154,6 +165,10 @@ void glfw_tickClockFSet(double t);
 void glfw_tickClockFSetSpeed(double t);
 double glfw_tickClockFGetSpeed();
 
+
+////////////////////////////////////////////////////////////////////////////////
+// OpenAL
+uint glfw_loadBuf(ALuint buf, const char* path);
 
 ////////////////////////////////////////////////////////////////////////////////
 // helpers

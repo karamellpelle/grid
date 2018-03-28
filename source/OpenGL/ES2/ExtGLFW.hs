@@ -72,35 +72,35 @@ gl_DEPTH24_STENCIL8_OES = 0x88F0
 -- TODO: verify "EXT" -> ""
 
 -- | GLvoid glProgramUniform1iEXT(GLuint program, GLint location, GLint x)
-foreign import ccall unsafe "glProgramUniform1i" glProgramUniform1iEXT
+foreign import ccall unsafe "glProgramUniform1iEXT" glProgramUniform1iEXT
     :: GLuint -> GLint -> GLint -> IO ()
 
 -- | GLvoid glProgramUniform2iEXT(GLuint program, GLint location, GLint x, GLint y)  
-foreign import ccall unsafe "glProgramUniform2i" glProgramUniform2iEXT
+foreign import ccall unsafe "glProgramUniform2iEXT" glProgramUniform2iEXT
     :: GLuint -> GLint -> GLint -> GLint -> IO ()
 
 -- | GLvoid glProgramUniform3iEXT(GLuint program, GLint location, GLint x, GLint y, GLint z)  
-foreign import ccall unsafe "glProgramUniform3i" glProgramUniform3iEXT
+foreign import ccall unsafe "glProgramUniform3iEXT" glProgramUniform3iEXT
     :: GLuint -> GLint -> GLint -> GLint -> GLint -> IO ()
 
 -- | GLvoid glProgramUniform4iEXT(GLuint program, GLint location, GLint x, GLint y, GLint z, GLint w)
-foreign import ccall unsafe "glProgramUniform4i" glProgramUniform4iEXT
+foreign import ccall unsafe "glProgramUniform4iEXT" glProgramUniform4iEXT
     :: GLuint -> GLint -> GLint -> GLint -> GLint -> GLint -> IO ()
 
 -- | GLvoid glProgramUniform1fEXT(GLuint program, GLint location, GLfloat x)  
-foreign import ccall unsafe "glProgramUniform1f" glProgramUniform1fEXT
+foreign import ccall unsafe "glProgramUniform1fEXT" glProgramUniform1fEXT
     :: GLuint -> GLint -> GLfloat -> IO ()
 
 -- | GLvoid glProgramUniform2fEXT(GLuint program, GLint location, GLfloat x, GLfloat y)
-foreign import ccall unsafe "glProgramUniform2f" glProgramUniform2fEXT
+foreign import ccall unsafe "glProgramUniform2fEXT" glProgramUniform2fEXT
     :: GLuint -> GLint -> GLfloat -> GLfloat -> IO ()
 
 -- | GLvoid glProgramUniform3fEXT(GLuint program, GLint location, GLfloat x, GLfloat y, GLfloat z)  
-foreign import ccall unsafe "glProgramUniform3f" glProgramUniform3fEXT
+foreign import ccall unsafe "glProgramUniform3fEXT" glProgramUniform3fEXT
     :: GLuint -> GLint -> GLfloat -> GLfloat -> GLfloat -> IO ()
 
 -- | GLvoid glProgramUniform4fEXT(GLuint program, GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w)  
-foreign import ccall unsafe "glProgramUniform4f" glProgramUniform4fEXT
+foreign import ccall unsafe "glProgramUniform4fEXT" glProgramUniform4fEXT
     :: GLuint -> GLint -> GLfloat -> GLfloat -> GLfloat -> GLfloat -> IO ()
 
 
@@ -123,31 +123,31 @@ gl_BUFFER_MAP_POINTER_OES = 0x88BD
 
 
 -- | void glGetBufferPointervOES (GLenum target, GLenum pname, GLvoid **params);
-foreign import ccall unsafe "glGetBufferPointerv" glGetBufferPointervOES
+foreign import ccall unsafe "glGetBufferPointervOES" glGetBufferPointervOES
     :: GLenum -> GLenum -> Ptr (Ptr a) -> IO ()
 
 -- | GLvoid* glMapBufferOES (GLenum target, GLenum access);
-foreign import ccall unsafe "glMapBuffer" glMapBufferOES
+foreign import ccall unsafe "glMapBufferOES" glMapBufferOES
     :: GLenum -> GLenum -> IO (Ptr GLvoid)
 
 -- | GLboolean glUnmapBufferOES (GLenum target);
-foreign import ccall unsafe "glUnmapBuffer" glUnmapBufferOES
+foreign import ccall unsafe "glUnmapBufferOES" glUnmapBufferOES
     :: GLenum -> IO GLboolean
 
 -- | GLvoid glBindVertexArrayOES(GLuint array);  
-foreign import ccall unsafe "glBindVertexArray" glBindVertexArrayOES
+foreign import ccall unsafe "glBindVertexArrayOES" glBindVertexArrayOES
     :: GLuint -> IO ()
 
 -- | GLvoid glDeleteVertexArraysOES(GLsizei n, const GLuint *arrays);  
-foreign import ccall unsafe "glDeleteVertexArrays" glDeleteVertexArraysOES
+foreign import ccall unsafe "glDeleteVertexArraysOES" glDeleteVertexArraysOES
     :: GLsizei -> Ptr GLuint -> IO ()
 
 -- | GLvoid glGenVertexArraysOES(GLsizei n, GLuint *arrays);  
-foreign import ccall unsafe "glGenVertexArrays" glGenVertexArraysOES
+foreign import ccall unsafe "glGenVertexArraysOES" glGenVertexArraysOES
     :: GLsizei -> Ptr GLuint -> IO ()
 
 -- | GLboolean glIsVertexArrayOES(GLuint array);
-foreign import ccall unsafe "glIsVertexArray" glIsVertexArrayOES
+foreign import ccall unsafe "glIsVertexArrayOES" glIsVertexArrayOES
     :: GLuint -> IO GLboolean
 
 

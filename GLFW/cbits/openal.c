@@ -18,8 +18,10 @@
  *   along with grid.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "glfw_foreign.h"
-#include "alc.h"
-#include "al.h"
+//#include "alc.h"
+//#include "al.h"
+#include <AL/al.h>
+#include <AL/alc.h>
 
 // load sound file into buffer.
 // supported file formats, according to Audio Converter Services:
