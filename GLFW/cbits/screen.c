@@ -22,11 +22,18 @@
 
 uint glfw_screenFBO()
 {
+    // FIXME: get FBO of the screen!!
     return 0;
 }
 
 void glfw_screenSize(uint* wth, uint* hth)
 {
+    // we must use the window's framebuffer size, not window size!
+    int width, height;
+    glfwGetFramebufferSize( g_window, &width, &height );
+
+    *wth = width;
+    *hth = height;
 
 }
 
