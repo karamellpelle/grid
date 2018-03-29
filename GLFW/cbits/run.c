@@ -104,7 +104,41 @@ void glfw_init(GLFWInit* init)
         //{
         //    printf( "cbits: could not init GLEW (%s)\n", glewGetErrorString( err ) );
         //}
+    
+        printf("glfwMakeContextCurrent: glGetError(): %s\n", gl_error_string( glGetError() ) );
 
+        // TMP: get info here
+        // https://www.khronos.org/opengl/wiki/GLAPI/glGet#Framebuffers
+
+        GLint num;
+        glGetIntegerv( GL_MAX_RENDERBUFFER_SIZE, &num );        // (GLint, at least 16384, see glFramebufferRenderbuffer) The maximum supported width and height for renderbuffers.
+        printf( "GL_MAX_RENDERBUFFER_SIZE:          %i\n", num );
+        glGetIntegerv( GL_MAX_COLOR_ATTACHMENTS, &num );        // (integer, at least 8) Maximum number of framebuffer attachment points for color buffers.
+        printf( "GL_MAX_COLOR_ATTACHMENTS:          %i\n", num );
+        glGetIntegerv( GL_MAX_COLOR_TEXTURE_SAMPLES, &num );    // (integer, at least 1) The maximum number of samples for all color formats in a multisample texture.
+        printf( "GL_MAX_COLOR_TEXTURE_SAMPLES:      %i\n", num );
+        glGetIntegerv( GL_MAX_DEPTH_TEXTURE_SAMPLES, &num );    // (integer, at least 1) The maximum number of samples in a multisample depth or depth-stencil texture.
+        printf( "GL_MAX_DEPTH_TEXTURE_SAMPLES:      %i\n", num );
+        glGetIntegerv( GL_MAX_DRAW_BUFFERS, &num );             // (integer, at least 8, see glDrawBuffers) The maximum number of simultaneous outputs that may be written in a fragment shader.
+        printf( "GL_MAX_DRAW_BUFFERS:               %i\n", num );
+        glGetIntegerv( GL_MAX_DUAL_SOURCE_DRAW_BUFFERS, &num ); // (integer, at least 1, see glBlendFunc and glBlendFuncSeparate) The maximum number of active draw buffers when using dual-source blending.
+        printf( "GL_MAX_DUAL_SOURCE_DRAW_BUFFERS:   %i\n", num );
+        glGetIntegerv( GL_MAX_FRAMEBUFFER_HEIGHT, &num );       // (integer, at least 16384, see glFramebufferParameter) The maximum height for a framebuffer that has no attachments.
+        printf( "GL_MAX_FRAMEBUFFER_HEIGHT:         %i\n", num );
+        glGetIntegerv( GL_MAX_FRAMEBUFFER_LAYERS, &num );       // (integer, at least 2048, see glFramebufferParameter) The maximum number of layers for a framebuffer that has no attachments.
+        printf( "GL_MAX_FRAMEBUFFER_LAYERS:         %i\n", num );
+        glGetIntegerv( GL_MAX_FRAMEBUFFER_SAMPLES, &num );      // (integer, at least 4, see glFramebufferParameter) The maximum samples in a framebuffer that has no attachments.
+        printf( "GL_MAX_FRAMEBUFFER_SAMPLES:        %i\n", num );
+        glGetIntegerv( GL_MAX_FRAMEBUFFER_WIDTH, &num );        // (integer, at least 16384, see glFramebufferParameter) The maximum width for a framebuffer that has no attachments.
+        printf( "GL_MAX_FRAMEBUFFER_WIDTH:          %i\n", num );
+        glGetIntegerv( GL_MAX_INTEGER_SAMPLES, &num );          // (integer, at least 1) The maximum number of samples supported in integer format multisample buffers.
+        printf( "GL_MAX_INTEGER_SAMPLES:            %i\n", num );
+        glGetIntegerv( GL_MAX_SAMPLES, &num );                  // (integer, at least 4) 
+        printf( "GL_MAX_SAMPLES:                    %i\n", num );
+        glGetIntegerv( GL_MAX_TEXTURE_BUFFER_SIZE, &num );      // (GLint, at least 65536) The maximum number of texels allowed in the texel array of a texture buffer object. 
+        printf( "GL_MAX_TEXTURE_BUFFER_SIZE:        %i\n", num );
+
+        printf("glfw_init() end: glGetError(): %s\n", gl_error_string( glGetError() ) );
     }
 }
 

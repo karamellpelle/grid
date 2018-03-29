@@ -21,50 +21,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <png.h>
-
-#if DEBUG
 #include <assert.h>
 
-char const* gl_error_string(GLenum const err)
-{
-  switch (err)
-  {
-    // opengl 2 errors (8)
-    case GL_NO_ERROR:
-      return "GL_NO_ERROR";
+// print debug info from glfw_loadTexPreMult?
+//#define DEBUG_LOADTEXPREMULT
 
-    case GL_INVALID_ENUM:
-      return "GL_INVALID_ENUM";
-
-    case GL_INVALID_VALUE:
-      return "GL_INVALID_VALUE";
-
-    case GL_INVALID_OPERATION:
-      return "GL_INVALID_OPERATION";
-
-    case GL_STACK_OVERFLOW:
-      return "GL_STACK_OVERFLOW";
-
-    case GL_STACK_UNDERFLOW:
-      return "GL_STACK_UNDERFLOW";
-
-    case GL_OUT_OF_MEMORY:
-      return "GL_OUT_OF_MEMORY";
-
-    case GL_TABLE_TOO_LARGE:
-      return "GL_TABLE_TOO_LARGE";
-
-    // opengl 3 errors (1)
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return "GL_INVALID_FRAMEBUFFER_OPERATION";
-
-    // gles 2, 3 and gl 4 error are handled by the switch above
-    default:
-      assert(!"unknown error");
-      return "";
-  }
-}
-#endif
 
 // loading a 2D texture of type 'target' into current bound texture.
 // colors in the textures will be represented by premultiplicated alpha.
@@ -112,7 +73,7 @@ char const* gl_error_string(GLenum const err)
 uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* hth, GLenum intfmt)
 {
     // (assuming tex is bound)
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
     printf("glfw_loadTexPreMult: loading file %s\n", path);
 #endif
 
@@ -121,7 +82,7 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     // make sure file is a png file
     if (!fp)
     {
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
        printf("glfw_loadTexPreMult: Error: no fp\n\n");
 #endif
         return false;
@@ -144,10 +105,11 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     }
 */
     // create data structs
-    png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL); // NULL for the error reports
+    extern void user_warning_fn(png_structp png_ptr, png_const_charp warning_msg);
+    png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, user_warning_fn ); // NULL for the error reports
     if(!png)
     {
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
         printf("glfw_loadTexPreMult: Error: could not create read struct\n\n");
 #endif
         return false;
@@ -155,7 +117,7 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     png_infop info = png_create_info_struct(png);
     if(!info)
     { 
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
         printf("glfw_loadTexPreMult: Error: could not create info struct\n\n");
 #endif
         png_destroy_read_struct(&png, (png_infopp)NULL, (png_infopp)NULL); 
@@ -165,7 +127,7 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     // setup file IO
     if ( setjmp( png_jmpbuf( png ) ) )
     {
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
         printf("glfw_loadTexPreMult: Error: could not setjmp\n\n");
 #endif
        png_destroy_read_struct(&png, &info, NULL );
@@ -191,7 +153,7 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     *wth = width;
     *hth = height;
     
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
         printf("glfw_loadTexPreMult: \n");
         printf("    width:      %u\n", width);
         printf("    height:     %u\n", height );
@@ -228,7 +190,7 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
 
     // create data to hold all RGBA values
     size_t row_bytes = png_get_rowbytes( png, info );
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
     printf("glfw_loadTexPreMult: allocating %u bytes for each row.\n", row_bytes);
 #endif
     png_bytep data = (png_bytep)( malloc( row_bytes * height ) );
@@ -248,11 +210,11 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     // FIXME: premultiply alpha!
 
     // read into bound texture object
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
     glGetError(); // clear error
 #endif
     glTexImage2D( target, 0, intfmt, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
-#if DEBUG
+#if DEBUG_LOADTEXPREMULT
     printf("glfw_loadTexPreMult: glGetError(): %s\n", gl_error_string( glGetError() ) );
 #endif
 
@@ -262,7 +224,57 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     free( data );
     png_destroy_read_struct( &png, &info, NULL);
     fclose(fp);
-
+#if DEBUG_LOADTEXPREMULT
     printf("\n");
+#endif
+
     return true;
+}
+
+
+char const* gl_error_string(GLenum const err)
+{
+  switch (err)
+  {
+    // opengl 2 errors (8)
+    case GL_NO_ERROR:
+      return "GL_NO_ERROR";
+
+    case GL_INVALID_ENUM:
+      return "GL_INVALID_ENUM";
+
+    case GL_INVALID_VALUE:
+      return "GL_INVALID_VALUE";
+
+    case GL_INVALID_OPERATION:
+      return "GL_INVALID_OPERATION";
+
+    case GL_STACK_OVERFLOW:
+      return "GL_STACK_OVERFLOW";
+
+    case GL_STACK_UNDERFLOW:
+      return "GL_STACK_UNDERFLOW";
+
+    case GL_OUT_OF_MEMORY:
+      return "GL_OUT_OF_MEMORY";
+
+    case GL_TABLE_TOO_LARGE:
+      return "GL_TABLE_TOO_LARGE";
+
+    // opengl 3 errors (1)
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+      return "GL_INVALID_FRAMEBUFFER_OPERATION";
+
+    // gles 2, 3 and gl 4 error are handled by the switch above
+    default:
+      assert(!"unknown error");
+      return "";
+  }
+}
+
+void user_warning_fn(png_structp png_ptr, png_const_charp warning_msg)
+{
+#if DEBUG_LOADTEXPREMULT
+    printf("glfw_loadTexPreMult: PNG warning: %s\n", warning_msg );
+#endif
 }

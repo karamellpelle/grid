@@ -20,6 +20,9 @@
 module OpenGL.Helpers
   (
     debugGLError,
+    debugGLError',
+    debugGLFramebufferStatus',
+
     normGLushort,
     mkPtrGLvoid,
     
@@ -74,10 +77,47 @@ debugGLError tag = do
         0x0500  -> putStrLn $ tag ++ " GL_INVALID_ENUM"
         0x0501  -> putStrLn $ tag ++ " GL_INVALID_VALUE"
         0x0502  -> putStrLn $ tag ++ " GL_INVALID_OPERATION"
+        0x0503  -> putStrLn $ tag ++ " GL_STACK_OVERFLOW"                   -- not GLES2
+        0x0504  -> putStrLn $ tag ++ " GL_STACK_UNDERFLOW"                  -- not GLES2
         0x0506  -> putStrLn $ tag ++ " GL_INVALID_FRAMEBUFFER_OPERATION"
         0x0505  -> putStrLn $ tag ++ " GL_OUT_OF_MEMORY"
+        0x8031  -> putStrLn $ tag ++ " GL_TABLE_TOO_LARGE"                  -- not GLES2
         err     -> putStrLn $ tag ++ " " ++ show err
 
+-- | non-silent debugGLError
+debugGLError' :: String -> IO ()
+debugGLError' tag = do
+    err <- glGetError
+    case err of
+        0x0000  -> putStrLn $ tag ++ "GL_NO_ERROR"
+        0x0500  -> putStrLn $ tag ++ "GL_INVALID_ENUM"
+        0x0501  -> putStrLn $ tag ++ "GL_INVALID_VALUE"
+        0x0502  -> putStrLn $ tag ++ "GL_INVALID_OPERATION"
+        0x0503  -> putStrLn $ tag ++ "GL_STACK_OVERFLOW"                   -- not GLES2
+        0x0504  -> putStrLn $ tag ++ "GL_STACK_UNDERFLOW"                  -- not GLES2
+        0x0506  -> putStrLn $ tag ++ "GL_INVALID_FRAMEBUFFER_OPERATION"
+        0x0505  -> putStrLn $ tag ++ "GL_OUT_OF_MEMORY"
+        0x8031  -> putStrLn $ tag ++ "GL_TABLE_TOO_LARGE"                  -- not GLES2
+        err     -> putStrLn $ tag ++ show err
+
+
+debugGLFramebufferStatus' :: String -> GLenum -> IO ()
+debugGLFramebufferStatus' tag status = 
+    case status of 
+        0x8CD5 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_COMPLETE"                       -- if the framebuffer bound to target complete. 
+        0x8CD6 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT"          -- if any of the framebuffer attachment points are framebuffer incomplete.
+        0x8CD7 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"  -- if the framebuffer does not have at least one image attached to it.
+        0x8CD9 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS"          -- Not all attached images have the same width and height.
+        0x8CDD -> putStrLn $ tag ++ "GL_FRAMEBUFFER_UNSUPPORTED"                    -- if the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.
+        0x8CDB -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER"         -- if the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for any color attachment point(s) named by GL_DRAW_BUFFERi.
+        0x8CDC -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER"         -- if GL_READ_BUFFER is not GL_NONE and the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for the color attachment point named by GL_READ_BUFFER.
+        0x8219 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_UNDEFINED"                      -- if target the default framebuffer, but the default framebuffer does not exist.
+        0x8D56 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE"         -- if the value of GL_RENDERBUFFER_SAMPLES is not the same for all attached renderbuffers; if the value of GL_TEXTURE_SAMPLES is the not same for all attached textures; or, if the attached images are a mix of renderbuffers and textures, the value of GL_RENDERBUFFER_SAMPLES does not match the value of GL_TEXTURE_SAMPLES. -- if the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not the same for all attached textures; or, if the attached images are a mix of renderbuffers and textures, the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not GL_TRUE for all attached textures.
+        0x8DA8 -> putStrLn $ tag ++ "GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS"       -- if any framebuffer attachment is layered, and any populated attachment is not layered, or if all populated color attachments are not from textures of the same target.
+        err    -> putStrLn $ tag ++ show status
+
+--------------------------------------------------------------------------------
+--  
 
 mkPtrGLvoid :: UInt -> Ptr GLvoid
 mkPtrGLvoid n = 

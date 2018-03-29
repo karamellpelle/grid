@@ -88,6 +88,7 @@ void glfw_screenSetRate(uint rate);
 
 uint glfw_loadTexPreMult(GLenum , const char*, GLuint* , GLuint* , GLenum );
 
+char const* gl_error_string(GLenum const err);
 
 ////////////////////////////////////////////////////////////////////////////////
 // OpenAL
