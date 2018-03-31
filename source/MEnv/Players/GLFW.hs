@@ -59,7 +59,7 @@ playersAuthenticateLocalPlayer = io $
 --
 playersHandleLocalPlayer :: a -> (Player -> a) -> MEnv res a
 playersHandleLocalPlayer a f = io $ do
-    putStrLn "GLFW.playersHandleLocalPlayer"
+    --putStrLn "GLFW.playersHandleLocalPlayer"
     return a
 
 

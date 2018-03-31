@@ -207,7 +207,21 @@ uint glfw_loadTexPreMult(GLenum target, const char* path, GLuint* wth, GLuint* h
     // now read PNG image RGBA  rows into 'data'. remember each channel is 1 byte.
     png_read_image(png, row_pointers);
 
-    // FIXME: premultiply alpha!
+    // and now we have to premultiply all - what a job!
+    for (size_t i = 0; i != width * height; ++i)
+    {
+        // RGBA
+        size_t j = i * 4;
+        uint8_t* r = (data + j) + 0;
+        uint8_t* g = (data + j) + 1;
+        uint8_t* b = (data + j) + 2;
+        uint8_t* a = (data + j) + 3;
+
+        *r = (uint8_t)( ((uint16_t)( *r ) * (uint16_t)( *a )) >> 8 );
+        *g = (uint8_t)( ((uint16_t)( *g ) * (uint16_t)( *a )) >> 8 );
+        *b = (uint8_t)( ((uint16_t)( *b ) * (uint16_t)( *a )) >> 8 );
+    }
+
 
     // read into bound texture object
 #if DEBUG_LOADTEXPREMULT
