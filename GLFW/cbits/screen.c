@@ -22,7 +22,8 @@
 
 uint glfw_screenFBO()
 {
-    // FIXME: get FBO of the screen!!
+    // TODO: retrieve variable in glfw_init()
+    // https://www.khronos.org/opengl/wiki/GLAPI/glGet#Framebuffers
     return 0;
 }
 

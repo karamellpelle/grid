@@ -35,6 +35,7 @@ module Game.Iteration
 
     defaultIteration,
     iterateABStack,
+    nullABStack,
     noOutput,
     noStep,
 
@@ -189,6 +190,9 @@ iterateABStack a b stack =
             return (a', b', top ++ is)
 
 
+nullABStack :: (a, b, IterationStack a b) -> Bool
+nullABStack (_, _, stack) =
+    null stack
 
 
 --------------------------------------------------------------------------------

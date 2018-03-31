@@ -74,7 +74,7 @@ runMEnvGLFW :: Init -> IO res -> (res -> IO ()) ->
               IO c
 runMEnvGLFW init loadResource unloadResource
            begin
-           iterate
+           iterate -- ignored
            end
            a = do
 
@@ -99,21 +99,25 @@ runMEnvGLFW init loadResource unloadResource
           begin >=>         -- a -> MEnv' b
           iterate' >=>      -- b -> MEnv' b
           end               -- b -> MEnv' c
+          
+      -- "main loop"
       iterate' = \b -> do
           io $ glfw_frame_begin
           b' <- iterate b
           io $ glfw_frame_end
-          return b
           
-      --iterate' = \(run, _, stack) ->
+          -- forever young
+          iterate' b'
+
+      --iterate' = \abstack@(a, b, stack) ->
       --    case stack of 
-      --        []      ->  return run
+      --        []      -> return abstack
       --        (i:is)  -> do
       --            -- iterate inside GLFW frame
       --            io $ glfw_frame_begin
       --            (a', b', top) <- (iteration i) a b
       --            io $ glfw_frame_end
-      --            -- loop 
+      --
       --            iterate' (a', b', top ++ is)
 
 

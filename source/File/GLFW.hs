@@ -39,7 +39,7 @@ import Paths_grid
 
 --------------------------------------------------------------------------------
 --  TODO: use getBinDir, getDataDir, getLibDir, getLibexecDir getSysconfDir in Paths_grid
-
+--  TODO: use getXdgDirectory?
 
 -- | full path to read-only application data
 fileStaticData :: FilePath -> IO FilePath

@@ -22,6 +22,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
+
+extern void glfw_initTick();
+extern void glfw_tickBegin();
+extern void glfw_tickEnd();
+
+
 // the canonical init object (configuration)
 //
 GLFWInit theGLFWInit;
@@ -107,8 +113,16 @@ void glfw_init(GLFWInit* init)
     
         printf("glfwMakeContextCurrent: glGetError(): %s\n", gl_error_string( glGetError() ) );
 
-        // TMP: get info here
-        // https://www.khronos.org/opengl/wiki/GLAPI/glGet#Framebuffers
+        ////////////////////////////////////////////////////////////////////////////////
+        // TODO: get FBO of screen. I assume this to be 0, i.e. not bound, 
+        // see https://www.khronos.org/opengl/wiki/GLAPI/glBindFramebuffer
+        // use this value for glfw_screenFBO()
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // glGet
+        // 
+        //  * https://www.khronos.org/opengl/wiki/GLAPI/glGet#Framebuffers
 
         GLint num;
         glGetIntegerv( GL_MAX_RENDERBUFFER_SIZE, &num );        // (GLint, at least 16384, see glFramebufferRenderbuffer) The maximum supported width and height for renderbuffers.
@@ -138,7 +152,13 @@ void glfw_init(GLFWInit* init)
         glGetIntegerv( GL_MAX_TEXTURE_BUFFER_SIZE, &num );      // (GLint, at least 65536) The maximum number of texels allowed in the texel array of a texture buffer object. 
         printf( "GL_MAX_TEXTURE_BUFFER_SIZE:        %i\n", num );
 
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        //
         printf("glfw_init() end: glGetError(): %s\n", gl_error_string( glGetError() ) );
+
+        // init tick
+        glfw_initTick(); 
     }
 }
 
@@ -178,10 +198,18 @@ void glfw_frame_begin()
     // populate events
     glfwPollEvents();
 
+    // pre iteration
+    glfw_tickBegin();
+    //glfw_keysBegin();
 }
 
 void glfw_frame_end()
 {
+    // post iteration
+    //glfw_keysEnd();
+    glfw_tickEnd();
+
+
     glfwSwapBuffers( g_window );
 
     ++frame_count_;

@@ -95,7 +95,6 @@ mainIteration ::
         Iteration' RunWorld
 mainIteration s output step =
     makeIteration' $ \run -> do
-       
         -- handle screen change
         run' <- runBeginScreen run
        

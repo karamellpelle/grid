@@ -23,9 +23,9 @@ module Main
   ) where
 
 import MyPrelude
-import File
 import Game
 
+import File
 import Game
 import Game.Run
 import Game.Run.Helpers.Make
@@ -75,7 +75,16 @@ main = do
    
 
     -- run MEnv!
-    -- loadGameData creates the real RunWorld; not the emtpy below
+    -- ideally, this should be as easy as 
+    --
+    --    b <- runMEnv init game $ a
+    --
+    -- where 'game' is of type 'a -> MEnv GameData b'.
+    -- however, the iOS platform forces an ObjectiveC driven program
+    -- with callbacks into Haskell. this is not necessary on the GLFW
+    -- platform (for example Linux), so I'll think I'm gonna rewrite 
+    -- the code later. for now, focus on porting the program.
+    --
     let a = ()
 #ifdef GRID_PLATFORM_IOS
     c <- runMEnvIOS init loadGameData unloadGameData 
@@ -87,8 +96,9 @@ main = do
 #endif
     
     return ()
-
+    
     where
+      -- a -> MEnv GameData b
       begin _ = do
           
           -- setup OpenGL and OpenAL
@@ -130,9 +140,14 @@ main = do
           return (run, (), [iterationBegin])
 
 
+      -- b -> MEnv GameData b
       iterate (a, b, stack) = do
-          iterateABStack a b stack
+          iterateABStack a b stack  
+          -- ^ this assumes every Iteration-step is inside a "frame" of 
+          --   the platform, which is the case for the iOS platform because
+          --   of its callbacks to Haskell
 
+      -- b -> MEnv GameData c
       end (run, b, stack) = do
           saveRunWorld run
 
