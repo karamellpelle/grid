@@ -82,6 +82,12 @@ uint glfw_keysTouchHandleButtonB(float* x0, float* y0)
 
 uint glfw_keysAcclGyro(float* ax, float* ay, float* az, float* gx, float* gy, float* gz)
 {
+    *ax = 0.0;
+    *ay = 0.0;
+    *az = 0.0;
+    *gx = 0.0;
+    *gy = 0.0;
+    *gz = 0.0;
     return 0;
 }
 
