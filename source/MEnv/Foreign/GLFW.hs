@@ -28,14 +28,16 @@ import MEnv
 
 
 foreignBeginForeign :: MEnv res ()
-foreignBeginForeign = io $
+foreignBeginForeign = io $ do
     putStrLn "GLFW.foreignBeginForeign"
+    putStrLn "  -> here we go out of haskell and run other stuff. originally for other iOS GameCentral"
 
 
 
 foreignHandleForeignEnd :: a -> a -> MEnv res a
 foreignHandleForeignEnd a a' = io $ do
     putStrLn "GLFW.foreignHandleForeignEnd"
-    return a
+    putStrLn "  -> however, let's ignore foreign and go back to haskell"
+    return a'
 
 
