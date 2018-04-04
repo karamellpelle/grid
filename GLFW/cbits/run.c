@@ -26,6 +26,9 @@
 extern void glfw_initTick();
 extern void glfw_tickBegin();
 extern void glfw_tickEnd();
+extern void glfw_initKeys();
+extern void glfw_keysBegin();
+extern void glfw_keysEnd();
 
 
 // the canonical init object (configuration)
@@ -159,11 +162,15 @@ void glfw_init(GLFWInit* init)
 
         // init tick
         glfw_initTick(); 
+
+        // init keys
+        glfw_initKeys();
     }
 }
 
 void glfw_deinit()
 {
+    //glfwDestroyCursor( g_cursor );
     glfwDestroyWindow( g_window ); 
     g_window = 0;
 
@@ -200,13 +207,13 @@ void glfw_frame_begin()
 
     // pre iteration
     glfw_tickBegin();
-    //glfw_keysBegin();
+    glfw_keysBegin();
 }
 
 void glfw_frame_end()
 {
     // post iteration
-    //glfw_keysEnd();
+    glfw_keysEnd();
     glfw_tickEnd();
 
 
