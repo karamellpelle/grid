@@ -4,7 +4,7 @@ Version:              0.0
 Cabal-Version:        >= 1.6
 License:              AllRightReserved
 --License-File:         license.txt
-Author:               Carl Joachim Svenn
+Author:               CJS
 Maintainer:           karamellpelle@hotmail.com
 Category:             Game
 Synopsis:             iOS game
