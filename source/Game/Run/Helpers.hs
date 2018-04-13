@@ -273,7 +273,7 @@ commentMemoryEscape run =
 
 commentAbout :: RunWorld -> MEnv' RunWorld
 commentAbout run = 
-    return $ runMessagePushClear run "karamellpelle@hotmail.com"
+    return $ runMessagePush run "karamellpelle@hotmail.com"
 
 
 
