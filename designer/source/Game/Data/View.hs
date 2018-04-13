@@ -1,5 +1,5 @@
 -- grid is a game written in Haskell
--- Copyright (C) 2013 Carl Joachim Svenn
+-- Copyright (C) 2018 karamellpelle@hotmail.com
 -- 
 -- This file is part of grid.
 -- 
