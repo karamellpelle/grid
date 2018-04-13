@@ -3,11 +3,12 @@ version:             1.0
 synopsis:            line game in 3D
 -- description:         
 homepage:            https://github.com/karamellpelle/grid
+bug-reports:         https://github.com/karamellpelle/grid
 license:             GPL-3
 license-file:        LICENSE
-author:              Carl Joachim Svenn
+author:              CJS
 maintainer:          karamellpelle@hotmail.com
--- copyright:           
+copyright:           2018 karamellpelle@hotmail.com
 category:            Game
 build-type:          Simple
 cabal-version:       >=1.10
@@ -22,8 +23,8 @@ data-files:          data_fancy/tmp/*.png
                      data_fancy/shaders/*.fsh
                      data_fancy/shaders/*.vsh
                      data_fancy/LevelPuzzle/*.def
-                     data_fancy/LevelPuzzle/*.png
-                     data_fancy/LevelPuzzle/*.caf
+                     --data_fancy/LevelPuzzle/*.png
+                     --data_fancy/LevelPuzzle/*.caf
                      data_fancy/LevelPuzzle/world
                      data_fancy/Font/*.fsh
                      data_fancy/Font/*.vsh
@@ -51,6 +52,9 @@ data-files:          data_fancy/tmp/*.png
                      data_plain/players/empty/Run/world
 
 
+source-repository head
+  type: git
+  location: https://github.com/karamellpelle/grid
 
 
 Flag StyleFancy

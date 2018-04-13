@@ -207,7 +207,7 @@ void peak2_begin()
     peak2_radius_vel.p = PEAK2_RADIUS_POS_TOUCHED;
     peak2_touched_radius = peak2_radius_vel.p;
 
-        printf( "touched: peak2_touched_radius: %+6.2f\n", peak2_touched_radius );
+        //printf( "touched: peak2_touched_radius: %+6.2f\n", peak2_touched_radius );
 
     peak2_touched = true;
 }
@@ -233,7 +233,7 @@ void peak2_update(uint n_fingers)
         // NOTE: scrolling only happens in discrete steps, hence we only need to step in the callback
         // instead, emulate radius by scroll wheel
         peak2_touching_radius = peak2_radius_vel.p;
-        printf( "touched: peak2_touching_radius: %+6.8f\n", peak2_touching_radius );
+        //printf( "touched: peak2_touching_radius: %+6.8f\n", peak2_touching_radius );
     }
     
 }
@@ -409,7 +409,7 @@ uint glfw_keysTouchHandleCircleDrag(double* ticks, float* x0, float* y0, float* 
         *y1 = peak2_touching_pos.y;
         *radius1 = peak2_touching_radius;
 
-        printf( "radius1 %+6.2f\n", *radius1 );
+        //printf( "radius1 %+6.2f\n", *radius1 );
         //printf( "   drag: Vel.v %+6.2f Vel.p %+6.2f, touchingradius: %+6.2f \n", peak2_radius_vel.v, peak2_radius_vel.p, *radius1 );
         
         return true;
@@ -560,7 +560,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
     peak2_touching_radius = peak2_radius_vel.p;
 
-    printf( "mouse scroll: peak2_touching_radius %+6.2f\n", peak2_touching_radius );
+    //printf( "mouse scroll: peak2_touching_radius %+6.2f\n", peak2_touching_radius );
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
