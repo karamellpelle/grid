@@ -73,11 +73,11 @@ iterationBegin =
         iteration' (iterationBegin' ()) run'''
 
 -- ignore intro:
-{-
+--{-
         gameSetIntensity 0.0
         iteration' (iterationMain) $ runSetCameraCmds run'
                                      [ camcmdView 0.0 1.0 valueRunGridView]
--}
+---}
     where
       setCamera wth hth run = 
           let run' = runSetTurnView run turnFaceForeign $ viewFromShape (Shape wth hth) 
