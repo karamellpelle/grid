@@ -22,13 +22,18 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define DEBUG_GLGET
 
 extern void glfw_initTick();
+//extern void glfw_deinitTick();
 extern void glfw_tickBegin();
 extern void glfw_tickEnd();
 extern void glfw_initKeys();
+//extern void glfw_deinitKeys();
 extern void glfw_keysBegin();
 extern void glfw_keysEnd();
+extern void glfw_initSound();
+extern void glfw_deinitSound();
 
 
 // the canonical init object (configuration)
@@ -126,7 +131,7 @@ void glfw_init(GLFWInit* init)
         // glGet
         // 
         //  * https://www.khronos.org/opengl/wiki/GLAPI/glGet#Framebuffers
-
+#ifdef DEBUG_GLGET
         GLint num;
         glGetIntegerv( GL_MAX_RENDERBUFFER_SIZE, &num );        // (GLint, at least 16384, see glFramebufferRenderbuffer) The maximum supported width and height for renderbuffers.
         printf( "GL_MAX_RENDERBUFFER_SIZE:          %i\n", num );
@@ -154,7 +159,7 @@ void glfw_init(GLFWInit* init)
         printf( "GL_MAX_SAMPLES:                    %i\n", num );
         glGetIntegerv( GL_MAX_TEXTURE_BUFFER_SIZE, &num );      // (GLint, at least 65536) The maximum number of texels allowed in the texel array of a texture buffer object. 
         printf( "GL_MAX_TEXTURE_BUFFER_SIZE:        %i\n", num );
-
+#endif
         ////////////////////////////////////////////////////////////////////////////////
         //
         //
@@ -165,6 +170,9 @@ void glfw_init(GLFWInit* init)
 
         // init keys
         glfw_initKeys();
+
+        // init keys
+        glfw_initSound();
     }
 }
 

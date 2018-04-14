@@ -130,7 +130,7 @@ executable grid
                        cbits/keys.c
                        cbits/tick.c 
                        cbits/helpers.c 
-  pkgconfig-depends:   gl, glesv2, glfw3, openal, libpng
+  pkgconfig-depends:   gl, glesv2, glfw3, openal, libpng, libmpg123
   --                   ^ libglvnd gives us GLES2
   --extra-libraries:     -- C?
   --extra-lib-dirs:      -- C?? remove, use pkgconfig-depends

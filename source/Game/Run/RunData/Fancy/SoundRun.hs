@@ -53,7 +53,7 @@ loadSoundRun = do
 
     -- buffer for iterationBegin 
     bufBegin <- genBuf
-    fileStaticData "Run/Output/iteration_begin.caf" >>= loadBuf bufBegin
+    fileStaticData "Run/Output/iteration_begin.mp3" >>= loadBuf bufBegin
     
     return SoundRun
            {

@@ -71,7 +71,7 @@ unloadSoundRun sound = do
 -- | begin usege of sounds for iterationBegin
 beginSoundRunIterationBegin :: SoundRun -> IO ()
 beginSoundRunIterationBegin sound = do
-    path <- fileStaticData "Run/Output/iteration_begin.caf"
+    path <- fileStaticData "Run/Output/iteration_begin.mp3"
     loadBuf (soundRunIterationBeginBuf sound) path
 
 

@@ -46,7 +46,7 @@ loadSoundMemory :: IO SoundMemory
 loadSoundMemory = do
     -- buffer
     buf <- genBuf
-    path <- fileStaticData "Memory/Output/iteration_failure.caf"
+    path <- fileStaticData "Memory/Output/iteration_failure.mp3"
     loadBuf buf path
     
     -- src

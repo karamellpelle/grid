@@ -27,12 +27,11 @@
 #include <stdint.h> 
 #include <stdbool.h> 
 //#include <math.h>
+
+////////////////////////////////////////////////////////////////////////////////
+// OpenGL
 //#include <GL/glew.h>    // must be done before GLFW!!
 #include <GLFW/glfw3.h> // FIXME: build option?
-
-// OpenAL (for glfw_loadBuf)
-#include <AL/al.h>
-#include <AL/alc.h>
 
 // expose native GL
 // FIXME: set this based on Platform and context type!!
@@ -40,6 +39,12 @@
 //#define GLFW_EXPOSE_NATIVE_X11
 //#define GLFW_EXPOSE_NATIVE_GLX // or EGL??
 //#include <GLFW/glfw3native.h>
+
+////////////////////////////////////////////////////////////////////////////////
+// OpenAL
+#include <AL/al.h>
+#include <AL/alc.h>
+#include "mpg123.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // types

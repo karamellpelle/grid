@@ -52,7 +52,7 @@ data SoundLevelPuzzle =
 loadSoundLevelPuzzle :: IO SoundLevelPuzzle
 loadSoundLevelPuzzle = do
     -- buffer
-    bufIterationBeginPlay <- makeBuf "LevelPuzzle/Output/iteration_beginplay.caf"
+    bufIterationBeginPlay <- makeBuf "LevelPuzzle/Output/iteration_beginplay.mp3"
     bufIterationComplete <- genBuf
 
     -- non-3D source for Iterations
@@ -105,7 +105,7 @@ unloadSoundLevelPuzzle snd = do
 
 beginSoundLevelPuzzleIterationComplete :: SoundLevelPuzzle -> IO ()
 beginSoundLevelPuzzleIterationComplete snd = do
-    path <- fileStaticData "LevelPuzzle/Output/iteration_complete.caf"
+    path <- fileStaticData "LevelPuzzle/Output/iteration_complete.mp3"
     loadBuf (soundLevelPuzzleIterationCompleteBuf snd) path
 
 endSoundLevelPuzzleIterationComplete :: SoundLevelPuzzle -> IO ()

@@ -79,15 +79,15 @@ makeSceneEmpty =
 -- | make a Scene from size
 makeScene :: UInt -> UInt -> MEnv' Scene
 makeScene wth hth = io $ do
-    putStrLn $ "makeScene begin"    
+    --putStrLn $ "makeScene begin"    
 
     -- fbo
-    debugGLError' "bindNewFBO begin: " 
+    --debugGLError' "bindNewFBO begin: " 
     fbo <- bindNewFBO 
-    debugGLError' "bindNewFBO end: " 
+    --debugGLError' "bindNewFBO end: " 
 
     -- tex
-    debugGLError' "glFramebufferTexture2D begin: " 
+    --debugGLError' "glFramebufferTexture2D begin: " 
     tex <- bindNewTex gl_TEXTURE_2D
     glTexParameteri gl_TEXTURE_2D gl_TEXTURE_WRAP_S $ fI gl_CLAMP_TO_EDGE
     glTexParameteri gl_TEXTURE_2D gl_TEXTURE_WRAP_T $ fI gl_CLAMP_TO_EDGE
@@ -96,37 +96,37 @@ makeScene wth hth = io $ do
     glTexImage2D gl_TEXTURE_2D 0 (fI gl_RGBA) (fI wth) (fI hth) 0 
                  gl_RGBA gl_UNSIGNED_BYTE nullPtr
     glFramebufferTexture2D gl_FRAMEBUFFER gl_COLOR_ATTACHMENT0 gl_TEXTURE_2D tex 0
-    debugGLError' "glFramebufferTexture2D end:   " 
+    --debugGLError' "glFramebufferTexture2D end:   " 
 
     -- depthstencil
-    debugGLError' "bindNewRBO begin: " 
+    --debugGLError' "bindNewRBO begin: " 
     depthstencil <- bindNewRBO
-    debugGLError' "bindNewRBO end:   " 
-    debugGLError' "glRenderBufferStorage begin: " 
+    --debugGLError' "bindNewRBO end:   " 
+    --debugGLError' "glRenderBufferStorage begin: " 
     glRenderbufferStorage gl_RENDERBUFFER gl_DEPTH24_STENCIL8_OES (fI wth) (fI hth)
-    debugGLError' "glRenderBufferStorage end:   " 
-    debugGLError' "glFramebufferRenderbuffer DEPTH begin: " 
+    --debugGLError' "glRenderBufferStorage end:   " 
+    --debugGLError' "glFramebufferRenderbuffer DEPTH begin: " 
     glFramebufferRenderbuffer gl_FRAMEBUFFER gl_DEPTH_ATTACHMENT gl_RENDERBUFFER 
                               depthstencil
-    debugGLError' "glFramebufferRenderbuffer DEPTH end:   " 
-    debugGLError' "glFramebufferRenderbuffer DEPTH begin: " 
+    --debugGLError' "glFramebufferRenderbuffer DEPTH end:   " 
+    --debugGLError' "glFramebufferRenderbuffer DEPTH begin: " 
     glFramebufferRenderbuffer gl_FRAMEBUFFER gl_STENCIL_ATTACHMENT gl_RENDERBUFFER 
                               depthstencil
-    debugGLError' "glFramebufferRenderbuffer DEPTH end:   " 
+    --debugGLError' "glFramebufferRenderbuffer DEPTH end:   " 
 
     -- check status
-    debugGLError' "glCheckFramebufferStatus begin: " 
+    --debugGLError' "glCheckFramebufferStatus begin: " 
     status <- glCheckFramebufferStatus gl_FRAMEBUFFER
-    debugGLFramebufferStatus' "makeScene gl_FRAMEBUFFER: " status
+    --debugGLFramebufferStatus' "makeScene gl_FRAMEBUFFER: " status
     unless (status == gl_FRAMEBUFFER_COMPLETE) $ 
         error "makeScene: could not create framebuffer!"
-    debugGLError' "glCheckFramebufferStatus end:   " 
+    --debugGLError' "glCheckFramebufferStatus end:   " 
 
     -- Noise
     noise <- makeNoise
 
-    putStrLn $ "makeScene end"    
-    putStrLn ""
+    --putStrLn $ "makeScene end"    
+    --putStrLn ""
 
     let shape = shapeOfSize wth hth
 
@@ -151,64 +151,64 @@ makeScene wth hth = io $ do
 -- | remake Scene
 remakeScene :: Scene -> UInt -> UInt -> MEnv' Scene
 remakeScene scene wth hth = io $ do
-    putStrLn $ "remakeScene begin. wth = " ++ show wth ++ ", hth = " ++ show hth
+    --putStrLn $ "remakeScene begin. wth = " ++ show wth ++ ", hth = " ++ show hth
     -- destroy
-    debugGLError' "delDepthStencil begin: " 
+    --debugGLError' "delDepthStencil begin: " 
     delRBO $ sceneDepthStencil scene
-    debugGLError' "delDepthStencil end:   " 
-    debugGLError' "delTex begin: " 
+    --debugGLError' "delDepthStencil end:   " 
+    --debugGLError' "delTex begin: " 
     delTex $ sceneTex scene
-    debugGLError' "delTex end:   " 
-    debugGLError' "delFBO begin: " 
+    --debugGLError' "delTex end:   " 
+    --debugGLError' "delFBO begin: " 
     delFBO $ sceneFBO scene
-    debugGLError' "delFBO end:   " 
+    --debugGLError' "delFBO end:   " 
 
     -- fbo
-    debugGLError' "bindNewFBO begin: " 
+    --debugGLError' "bindNewFBO begin: " 
     fbo <- bindNewFBO
-    debugGLError' "bindNewFBO end:   " 
+    --debugGLError' "bindNewFBO end:   " 
 
     -- tex
-    debugGLError' "bindNewTex begin: " 
+    --debugGLError' "bindNewTex begin: " 
     tex <- bindNewTex gl_TEXTURE_2D
-    debugGLError' "bindNewTex end: " 
+    --debugGLError' "bindNewTex end: " 
     glTexParameteri gl_TEXTURE_2D gl_TEXTURE_WRAP_S $ fI gl_CLAMP_TO_EDGE
     glTexParameteri gl_TEXTURE_2D gl_TEXTURE_WRAP_T $ fI gl_CLAMP_TO_EDGE
     glTexParameteri gl_TEXTURE_2D gl_TEXTURE_MIN_FILTER $ fI gl_LINEAR
     glTexParameteri gl_TEXTURE_2D gl_TEXTURE_MAG_FILTER $ fI gl_LINEAR
-    debugGLError' "glTexImage2D begin: " 
+    --debugGLError' "glTexImage2D begin: " 
     glTexImage2D gl_TEXTURE_2D 0 (fI gl_RGBA) (fI wth) (fI hth) 0 
                  gl_RGBA gl_UNSIGNED_BYTE nullPtr
-    debugGLError' "glTexImage2D end:   " 
-    debugGLError' "glFramebufferTexture2D begin: " 
+    --debugGLError' "glTexImage2D end:   " 
+    --debugGLError' "glFramebufferTexture2D begin: " 
     glFramebufferTexture2D gl_FRAMEBUFFER gl_COLOR_ATTACHMENT0 gl_TEXTURE_2D tex 0
-    debugGLError' "glFramebufferTexture2D end:   " 
+    --debugGLError' "glFramebufferTexture2D end:   " 
     
     -- depthstencil
-    debugGLError' "bindNewRBO begin: " 
+    --debugGLError' "bindNewRBO begin: " 
     depthstencil <- bindNewRBO
-    debugGLError' "bindNewRBO end:   " 
-    debugGLError' "glRenderbufferStorage begin: " 
+    --debugGLError' "bindNewRBO end:   " 
+    --debugGLError' "glRenderbufferStorage begin: " 
     glRenderbufferStorage gl_RENDERBUFFER gl_DEPTH24_STENCIL8_OES (fI wth) (fI hth)
-    debugGLError' "glRenderbufferStorage end:   " 
-    debugGLError' "glFramebufferRenderbuffer DEPTH begin: " 
+    --debugGLError' "glRenderbufferStorage end:   " 
+    --debugGLError' "glFramebufferRenderbuffer DEPTH begin: " 
     glFramebufferRenderbuffer gl_FRAMEBUFFER gl_DEPTH_ATTACHMENT gl_RENDERBUFFER
                               depthstencil
-    debugGLError' "glFramebufferRenderbuffer DEPTH end:   " 
-    debugGLError' "glFramebufferRenderbuffer STENCIL begin: " 
+    --debugGLError' "glFramebufferRenderbuffer DEPTH end:   " 
+    --debugGLError' "glFramebufferRenderbuffer STENCIL begin: " 
     glFramebufferRenderbuffer gl_FRAMEBUFFER gl_STENCIL_ATTACHMENT gl_RENDERBUFFER
                               depthstencil
-    debugGLError' "glFramebufferRenderbuffer STENCIL end:   " 
+    --debugGLError' "glFramebufferRenderbuffer STENCIL end:   " 
 
     status <- glCheckFramebufferStatus gl_FRAMEBUFFER 
-    debugGLFramebufferStatus' "remakeScene gl_FRAMEBUFFER: " status
+    --debugGLFramebufferStatus' "remakeScene gl_FRAMEBUFFER: " status
     unless (status == gl_FRAMEBUFFER_COMPLETE) $ 
         error "remakeScene: could not create framebuffer!"
 
     let shape = shapeOfSize wth hth
 
-    putStrLn "remakeScene end."    
-    putStrLn ""    
+    --putStrLn "remakeScene end."    
+    --putStrLn ""    
 
     return scene
            {

@@ -75,7 +75,7 @@ loadSoundScene = do
            }
     where
       -- note: remember to update valueNoisesSize!!
-      names = [ "noise0.caf", "noise1.caf", "noise2.caf", "noise3.caf" ]
+      names = [ "noise0.mp3", "noise1.mp3", "noise2.mp3", "noise3.mp3" ]
 
       valueSoundSceneNoiseConeInnerAngle :: ALfloat
       valueSoundSceneNoiseConeInnerAngle = 360.0
@@ -110,7 +110,7 @@ unloadSoundScene sound = do
 
 valueSoundSceneNoises :: [ String ]
 valueSoundSceneNoises =
-      [ "noise0.caf", "noise1.caf", "noise2.caf", "noise3.caf" ]
+      [ "noise0.mp3", "noise1.mp3", "noise2.mp3", "noise3.mp3" ]
       
 valueSoundSceneNoiseSize :: UInt
 valueSoundSceneNoiseSize = 

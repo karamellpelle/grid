@@ -17,76 +17,128 @@
  *   You should have received a copy of the GNU General Public License
  *   along with grid.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <limits.h>
 #include "glfw_foreign.h"
-//#include "alc.h"
-//#include "al.h"
-#include <AL/al.h>
-#include <AL/alc.h>
 
-// load sound file into buffer.
-// supported file formats, according to Audio Converter Services:
-//   iLBC
-//   IMA/ADPCM
-//   PCM
-//   muLaw, aLaw
-//   AAC
-//   ALAC
-//   MP3
+#define DEBUG_LOADBUF
+
+static mpg123_handle* mpg123 = 0;
+
+void glfw_initSound()
+{
+
+    // see https://github.com/kcat/alure/blob/36844e1584408683999f38298fa99a12740619ac/src/decoders/mpg123.cpp#L128
+
+    if ( mpg123_init() != MPG123_OK )
+    {
+        printf( "ERROR: (mpg123) could not initialize!\n" );
+        return;
+    }
+    mpg123 = mpg123_new( 0, 0 );    
+    if ( !mpg123 )
+    {
+        printf( "ERROR: (mpg123) could not create handle!\n" );
+        return;
+    }
+    
+    printf( "mpg123 handle created.\n" );
+}
+
+void glfw_deinitSound()
+{
+    mpg123_delete( mpg123 );
+    printf( "mpg123 deleted.\n" );
+}
+
+
+// load mp3 file into buffer using mpg123
 uint glfw_loadBuf(ALuint buf, const char* path)
 {
-/*
-    // open file as a ExtAudioFileRef
-    CFURLRef cfurl = 
-        (CFURLRef)[[NSURL fileURLWithPath:[NSString stringWithUTF8String:path]] retain];
-    ExtAudioFileRef ext_ref;
-    if ( ExtAudioFileOpenURL( cfurl, &ext_ref ) )
-    {
-        printf("ios_loadBuffer: could not open file\n");
-        CFRelease( cfurl );
-        return false;
-    }
-    CFRelease( cfurl );
-    
-    // buffer data is: 
-    // PCM, 16 bit native endian (i.e. little endian), mono, ios_sample_rate rate
-    AudioStreamBasicDescription out_dsc;
-    out_dsc.mSampleRate = (Float64)theIOSInit.sound_rate;
-    out_dsc.mChannelsPerFrame = 1;
-    out_dsc.mFormatID = kAudioFormatLinearPCM;
-    out_dsc.mBytesPerPacket = 2;
-    out_dsc.mFramesPerPacket = 1;
-    out_dsc.mBytesPerFrame = 2;
-    out_dsc.mBitsPerChannel = 16;
-    out_dsc.mFormatFlags = kAudioFormatFlagsNativeEndian |
-                           kAudioFormatFlagIsPacked      |
-                           kAudioFormatFlagIsSignedInteger;
-    ExtAudioFileSetProperty( ext_ref, kExtAudioFileProperty_ClientDataFormat,
-                             sizeof(out_dsc), &out_dsc );
+#ifdef DEBUG_LOADBUF
+    printf( "loading audio '%s'...\n", path );
+#endif
 
-    // extract buffer data
-    SInt64 num_frames_sint64;
-    UInt32 num_frames_sint64_size = sizeof(num_frames_sint64);
-    ExtAudioFileGetProperty( ext_ref, kExtAudioFileProperty_FileLengthFrames, 
-                             &num_frames_sint64_size, &num_frames_sint64 );
-    size_t data_size = num_frames_sint64 * out_dsc.mBytesPerFrame;
-    void* data = malloc( data_size );
-    AudioBufferList buffer_list;
-    buffer_list.mNumberBuffers = 1;
-    buffer_list.mBuffers[0].mDataByteSize = data_size;
-		buffer_list.mBuffers[0].mNumberChannels = out_dsc.mChannelsPerFrame;
-		buffer_list.mBuffers[0].mData = data;
-    UInt32 num_frames_uint32 = num_frames_sint64;
-    if ( ExtAudioFileRead( ext_ref, &num_frames_uint32, &buffer_list) )
+    // open file
+    if ( mpg123_open( mpg123, path ) != MPG123_OK )
     {
-        printf("ios_loadBuffer: could not extract buffer data.\n");
-        free( data );
-        return false;
+        printf( "ERROR: (mpg123) could not open file '%s'.\n", path );
+        return 0;
     }
-    
+    int enc, chancount;
+    long srate;
+    if( mpg123_getformat( mpg123, &srate, &chancount, &enc ) != MPG123_OK )
+    {
+        printf( "ERROR: (mpg123) could not read format of file '%s'.\n", path );
+        return 0;
+    }
+    if(srate < 1 || INT_MAX <= srate )
+    {
+        printf( "ERROR: (mpg123) sample rate %i of file '%s' is not valid.\n", srate, path );
+        return 0;
+    }
+#ifdef DEBUG_LOADBUF
+    printf( "   -> file format: sample rate %i, channels %i, enc %i \n", srate, chancount, enc );
+#endif
+
+
+    // set mp3 decoders output format
+    // FIXME: can the format be changed during read? 
+    // see https://www.mpg123.de/api/group__mpg123__output.shtml
+    if( mpg123_format_none( mpg123 ) != MPG123_OK )
+    {
+        printf( "ERROR: (mpg123) could not clear output format for file '%s'.\n", path );
+        return 0;
+    }
+    chancount = 1; // we want mono channel
+    if ( mpg123_format( mpg123, srate, chancount, MPG123_ENC_SIGNED_16 ) != MPG123_OK )
+    {
+        printf( "ERROR: (mpg123) could create output format (rate %i, channels %i, MPG123_ENC_SIGNED_16) for file '%s'.\n", srate, chancount, path );
+        return 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // decoder is Oscar Mike, let's send data to OpenAL buffer
+
+    size_t samples = mpg123_length( mpg123 );
+
+    size_t size = samples * 1 * 2; // samples * channels * int16_t
+    uint8_t* data = (uint8_t*)( malloc( size ) );
+   
+#ifdef DEBUG_LOADBUF
+    printf( "   -> allocated %d bytes for data\n", size );
+#endif
+
+    size_t total = 0;
+    while( total < size )
+    {
+        size_t got = 0;
+        int ret = mpg123_read( mpg123, data + total, size - total, &got );
+        if ( (ret != MPG123_OK && ret != MPG123_DONE) || got == 0)
+            break;
+
+        total += got;
+        if( ret == MPG123_DONE )
+            break;
+    }
+
+
     // populate AL buffer
-    alBufferData( buf, AL_FORMAT_MONO16, data, data_size, theIOSInit.sound_rate );
+    alBufferData( buf, AL_FORMAT_MONO16, data, size, srate );
+
+    // free data
     free( data );
-*/
+
+    // close current file
+    mpg123_close( mpg123 );
+
+#ifdef DEBUG_LOADBUF
+    printf( "   -> OK!\n", size );
+#endif
+
+    // buffer loaded
     return 1;
 
 }

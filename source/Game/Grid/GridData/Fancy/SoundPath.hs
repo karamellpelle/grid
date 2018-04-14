@@ -47,7 +47,7 @@ loadSoundPath :: IO SoundPath
 loadSoundPath = do
     -- buffer
     buf <- genBuf
-    fileStaticData "Grid/Output/path_newsegment.caf" >>= loadBuf buf
+    fileStaticData "Grid/Output/path_newsegment.mp3" >>= loadBuf buf
     
     -- src
     src <- genSrc
