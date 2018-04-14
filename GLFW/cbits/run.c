@@ -163,7 +163,7 @@ void glfw_init(GLFWInit* init)
         ////////////////////////////////////////////////////////////////////////////////
         //
         //
-        printf("glfw_init() end: glGetError(): %s\n", gl_error_string( glGetError() ) );
+        printf("glfw_init() -> glGetError(): %s\n", gl_error_string( glGetError() ) );
 
         // init tick
         glfw_initTick(); 

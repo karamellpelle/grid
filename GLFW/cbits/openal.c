@@ -23,14 +23,39 @@
 #include <limits.h>
 #include "glfw_foreign.h"
 
-#define DEBUG_LOADBUF
+//#define DEBUG_LOADBUF
 
 static mpg123_handle* mpg123 = 0;
+static ALCdevice*  openal_device = 0;
+static ALCcontext* openal_context = 0;
 
 void glfw_initSound()
 {
+    ////////////////////////////////////////////////////////////////////////////////
+    // setup OpenAL
 
-    // see https://github.com/kcat/alure/blob/36844e1584408683999f38298fa99a12740619ac/src/decoders/mpg123.cpp#L128
+    // open device
+    openal_device = alcOpenDevice( 0 );
+    if ( !openal_device )
+    {
+        printf( "ERROR: (OpenAL) could not open device!\n" );
+        return;
+    }
+    printf( "OpenAL device opened.\n" );
+    // create context
+    openal_context = alcCreateContext(openal_device, 0);
+    if ( !openal_device )
+    {
+        printf( "ERROR: (OpenAL) could not create context!\n" );
+        return;
+    }
+    alcMakeContextCurrent( openal_context );
+    printf( "OpenAL context created.\n" );
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // setup libmpg123
+    //  * https://github.com/kcat/alure/blob/36844e1584408683999f38298fa99a12740619ac/src/decoders/mpg123.cpp#L128
+    //  * (http://devcry.heiho.net/html/2016/20161223-jingle-bell-rock.html)
 
     if ( mpg123_init() != MPG123_OK )
     {
@@ -43,7 +68,6 @@ void glfw_initSound()
         printf( "ERROR: (mpg123) could not create handle!\n" );
         return;
     }
-    
     printf( "mpg123 handle created.\n" );
 }
 
@@ -51,6 +75,12 @@ void glfw_deinitSound()
 {
     mpg123_delete( mpg123 );
     printf( "mpg123 deleted.\n" );
+
+    alcDestroyContext( openal_context );
+    printf( "OpenAL context destroyed.\n" );
+  
+    alcCloseDevice( openal_device );
+    printf( "OpenAL device closed.\n" );
 }
 
 
