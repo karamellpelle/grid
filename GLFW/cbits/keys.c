@@ -30,6 +30,13 @@
 #define PEAK2_RADIUS_POS_TOUCHED 0.5
 #define PEAK2_RADIUS_SCROLL_STEP 0.02
 
+#define KEYBOARD_KEY_UP    GLFW_KEY_W
+#define KEYBOARD_KEY_DOWN  GLFW_KEY_S
+#define KEYBOARD_KEY_LEFT  GLFW_KEY_A
+#define KEYBOARD_KEY_RIGHT GLFW_KEY_D
+#define KEYBOARD_KEY_A     GLFW_KEY_SPACE
+#define KEYBOARD_KEY_B     GLFW_KEY_ENTER
+
 // https://stackoverflow.com/questions/3437404/min-and-max-in-c
 #define MAX(X, Y) (((X) < (Y)) ? (Y) : (X))
 
@@ -60,7 +67,16 @@ typedef struct
 } Finger;
 
 
-// locals
+static double arrows_tick = 0.0;
+static bool arrows_released = false; 
+static bool a_released = false; 
+static bool b_released = false; 
+static float up = 0.0f;
+static float down = 0.0f;
+static float left = 0.0f;
+static float right = 0.0f;
+                                   
+// locals                          
 static Finger fingers[ GLFW_KEYS_MAX_FINGERS ];
 
 static size_t fingers_ix = 0;
@@ -311,7 +327,9 @@ void glfw_keysBegin()
 
 void glfw_keysEnd()
 {
-    
+    arrows_released = false; 
+    a_released = false; 
+    b_released = false; 
 }
 
 
@@ -354,6 +372,25 @@ uint glfw_keysTouchHandlePointDrag(double* ticks, float* x0, float* y0, float* x
         
         return true;
     }
+    // new chance: keyboard key
+    if ( fingers_peak == 0 )
+    {
+        // is there a key down?
+        if ( !( up == 0.0f && down == 0.0f && left == 0.0f && right == 0.0f ) )
+        {
+            *ticks = tick - arrows_tick;
+            *x0 = 0.5;
+            *y0 = 0.5;
+            *x1 = 0.5 + left + right;
+            *y1 = 0.5 + up + down;
+
+            // save current in order to retrieve drop point
+            //arrows_x1 = *x1;
+            //arrows_y1 = *y1;
+
+            return true;
+        }
+    }
     return false;
 }
 
@@ -369,6 +406,19 @@ uint glfw_keysTouchHandlePointDrop(double* ticks, float* x0, float* y0, float* x
         *y1 = peak1_touching_pos.y;
         return true;
     }
+#if 0
+    // new chance: keyboard key
+    if ( arrows_debounce_tick <= tick )
+    {
+        *ticks = peak1_touching_tick - peak1_touched_tick;
+        *x0 = 0.5f; // FIXME: is this center?? or 0.0?
+        *y0 = 0.5f;
+        *x1 = arrows_x1;
+        *y1 = arrows_y1;
+
+        return true;
+    }
+#endif
     return false;
     
     
@@ -437,6 +487,7 @@ uint glfw_keysTouchHandleCircleDrop(double* ticks, float* x0, float* y0, float* 
 }
 
 
+// button A is a short touch
 uint glfw_keysTouchHandleButtonA(float* x, float* y)
 {
     if ( peak1_buttonA )
@@ -446,10 +497,19 @@ uint glfw_keysTouchHandleButtonA(float* x, float* y)
         
         return true;
     }
+    // new chance: keyboard key
+    if ( a_released )
+    {
+        *x = 0.5f;
+        *y = 0.5f;
+        return true;
+        
+    }
     return false;
 }
 
 
+// button B is a long hold
 uint glfw_keysTouchHandleButtonB(float* x, float* y)
 {
     if ( peak1_buttonB )
@@ -458,6 +518,14 @@ uint glfw_keysTouchHandleButtonB(float* x, float* y)
         *y = peak1_touched_pos.y;
         
         return true;
+    }
+    // new chance: keyboard key
+    if ( b_released )
+    {
+        *x = 0.5f;
+        *y = 0.5f;
+        return true;
+        
     }
     return false;
 }
@@ -577,4 +645,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     // GLFW_REPEAT (only here, not for glfwGetKey())
     //
     // 
+    if ( action == GLFW_PRESS )
+    {
+        if ( key == KEYBOARD_KEY_UP ) up = -0.5f;
+        if ( key == KEYBOARD_KEY_DOWN ) down = +0.5f;
+        if ( key == KEYBOARD_KEY_LEFT ) left = -0.5f;
+        if ( key == KEYBOARD_KEY_RIGHT ) right = +0.5f;
+
+        if ( !(up == 0.0f && down == 0.0f && left == 0.5f && right == 0.5f) )
+        {
+            arrows_tick = tick;
+        }
+    }
+
+    if ( action == GLFW_RELEASE )
+    {
+        if ( key == KEYBOARD_KEY_A )      a_released = true;
+        if ( key == KEYBOARD_KEY_B )      b_released = true;
+#if 0
+        if ( up == 0.0f && down == 0.0f && left == 0.5f && right == 0.5f )
+        {
+            arrows_debounce_tick = tick;
+            arrows_released = false;
+        }
+#endif
+    }
 }

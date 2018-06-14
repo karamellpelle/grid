@@ -60,6 +60,7 @@ text = [
       "  The Haskell community ",
       "  The open source community ", 
       "  The internets ",
+      "  alexcpeterson.com/spacescape ",
       "  www.humus.name ",
       "",
       "",

@@ -84,12 +84,12 @@ loadShadeSpace = do
     glTexParameteri gl_TEXTURE_CUBE_MAP gl_TEXTURE_WRAP_T $ fI gl_CLAMP_TO_EDGE
 
     path <- fileStaticData "Grid/Output"
-    forM_ [ (gl_TEXTURE_CUBE_MAP_NEGATIVE_X, "space_neg_x.png"),
-            (gl_TEXTURE_CUBE_MAP_POSITIVE_X, "space_pos_x.png"),
-            (gl_TEXTURE_CUBE_MAP_NEGATIVE_Y, "space_neg_y.png"),
-            (gl_TEXTURE_CUBE_MAP_POSITIVE_Y, "space_pos_y.png"),
-            (gl_TEXTURE_CUBE_MAP_NEGATIVE_Z, "space_neg_z.png"),
-            (gl_TEXTURE_CUBE_MAP_POSITIVE_Z, "space_pos_z.png") ] $ \(tgt, file) -> do
+    forM_ [ (gl_TEXTURE_CUBE_MAP_NEGATIVE_X, filenameNegX ),
+            (gl_TEXTURE_CUBE_MAP_POSITIVE_X, filenamePosX ),
+            (gl_TEXTURE_CUBE_MAP_NEGATIVE_Y, filenameNegY ),
+            (gl_TEXTURE_CUBE_MAP_POSITIVE_Y, filenamePosY ),
+            (gl_TEXTURE_CUBE_MAP_NEGATIVE_Z, filenameNegZ ),
+            (gl_TEXTURE_CUBE_MAP_POSITIVE_Z, filenamePosZ ) ] $ \(tgt, file) -> do
 
         loadTexPreMult tgt {-gl_RGB565-} gl_RGBA $ path ++ "/" ++ file
 
@@ -114,7 +114,14 @@ loadShadeSpace = do
                   shadeSpaceTex = tex,
                   shadeSpaceVAO = vao
               }
-
+    where
+      filenameNegX = folder ++ "/" ++ "space_neg_x.png"
+      filenamePosX = folder ++ "/" ++ "space_pos_x.png"
+      filenameNegY = folder ++ "/" ++ "space_neg_y.png"
+      filenamePosY = folder ++ "/" ++ "space_pos_y.png"
+      filenameNegZ = folder ++ "/" ++ "space_neg_z.png"
+      filenamePosZ = folder ++ "/" ++ "space_pos_z.png"
+      folder = "skybox-nebula" 
 
 unloadShadeSpace :: ShadeSpace -> IO ()
 unloadShadeSpace sh = do
