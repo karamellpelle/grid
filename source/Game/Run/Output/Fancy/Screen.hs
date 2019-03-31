@@ -127,7 +127,8 @@ outputScreenMain' gamedata proj2D proj3D modv3D = \s run b -> do
 
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv modv 1.0 run -- beta == 1.0 => grayscale
+        beta = 1.0 -- grayscale
+    shadeCube sh 1.0 projmodv modv beta run
 
     -- face names
     drawFaceNames gamedata 1.0 projmodv
@@ -214,8 +215,9 @@ outputScreenAtFace' gamedata proj2D proj3D modv3D s run b = do
     
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    --shadeCube sh 1.0 projmodv modv 0.0 run
-    shadeCube sh 1.0 projmodv modv 1.0 run -- beta == 1.0 => grayscale
+        a = cameraViewAlpha $ runCamera run
+        beta = 1.0 - a * a
+    shadeCube sh 1.0 projmodv modv beta run
 
     -- face names
     let alpha = cameraViewAlpha $ runCamera run
@@ -254,9 +256,12 @@ outputScreenAtFace''' gamedata proj2D proj3D modv3D = \s run b -> do
     --                                                (colormapAt colormap ix1) alpha
     shadeSpace sh tweak 1.0 modv
 
+
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv modv 1.0 run -- beta == 1.0 => grayscale
+        a = cameraViewAlpha $ runCamera run 
+        beta = a * a
+    shadeCube sh 1.0 projmodv modv beta run 
 
     -- face names
     let alpha = cameraViewAlpha $ runCamera run

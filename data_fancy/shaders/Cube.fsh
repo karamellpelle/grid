@@ -7,7 +7,8 @@ varying lowp float v_diffuse;
 
 const lowp vec4 ambient = vec4( 0.1, 0.1, 0.1, 0.0 );
 //const lowp vec4 grayscaler = vec4( 0.2126, 0.7152, 0.0722, 0.0 );
-const lowp vec4 grayscaler = vec4( 0.2 * 0.25, 0.7 * 0.25, 0.03 * 0.25, 0.0 );
+//const lowp vec4 grayscaler = vec4( 0.2 * 0.25, 0.7 * 0.25, 0.03 * 0.25, 0.0 );
+const lowp vec4 grayscaler = vec4( 0.08, 0.08, 0.08, 0.0 );
 
 void main()
 {
