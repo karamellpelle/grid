@@ -1,5 +1,13 @@
 I had an idea of making a computer game in Haskell on one of these fancy new touch platforms. And there was a GHC compiler for iOS, so I started writing this game. It is actually working pretty well, but it needs more work, especially if it should be released as a game, and I don't have enough time to use on this project anymore. Unfornately, the Apple world is not an open world. However, it should be easy to port this to other platforms too, I actually started writing this code on Linux :) It is licensed under GPLv3.
 
+Update 2019
+----------------
+In 2018 I was able to build this game on Linux (at least Arch Linux) and started porting the rest. Much has been done, but more work needs to be done. To build and run:
+
+    $ cd GLFW
+    $ stack build
+    $ stack exec grid
+
 
 Folders
 ----------------
@@ -7,18 +15,18 @@ Folders
     GLFW/               : GLFW build
     data_fancy/         : data files for Fancy style
     data_plain/         : data files for Plain style
-    designer/           : level designer 
+    designer/           : level designer (very old and is probably not working at all)
     dist/               : (empty)
     iOS/                : iOS build
     readme/             : files to read
-    source/             : Haskell source
+    source/             : the game source code
     test/               : test build 
 
 
 Gameplay
 ----------------
 
-The game is controlled by a box. This is used to jump in and out of the different modes. The box also controls game settings and game information. There are 3 game modes: LevelMode, PuzzleMode, MemoryMode. There is also possible to jump into foreign Objective-C code, the intention is to show score and achievements for players in GameCenter, on iOS.
+The game is controlled by a box which can be thought of as the main menu. This is used to jump in and out of the different modes. The box also controls game settings and game information. There are 3 game modes: LevelMode, PuzzleMode, MemoryMode. There is also possible to jump into foreign Objective-C code, the intention is to show score and achievements for players in GameCenter on iOS.
 
 ### LevelMode/PuzzleMode ###
 The idea is to control a line through different levels. This line moves inside a grid. The line has a limited number of moves to finish each level. Levels are finished by eating FinishDot's, and there are other objects the line can use in order to get to a FinishDot. Currently, there are DotPlain, DotBonus, DotTele. And the line movement can be constrained by Wall's. DotPlain lets the line move into Room's, so a DotPlain is a door into a (new) Room. DotBonus adds more moves to the line. DotTele are teleports (inside current Room). Unfornately, there is currently a bug with the coding, se below. A defined sequence of levels makes up a world, and this world is complete when the line has gone through all levels. Some levels should be easy and some difficult. The easy levels should be made for LevelMode, so the gameplay for the player is to control the line. The difficult levels should be made for PuzzleMode, so the gameplay for the player is to find its way out of the level. Hence the gameplay for the player changes. 

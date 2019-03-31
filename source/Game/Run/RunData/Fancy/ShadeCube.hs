@@ -41,6 +41,7 @@ data ShadeCube =
     {
         shadeCubePrg :: !GLuint,
         shadeCubeUniAlpha :: !GLint,
+        shadeCubeUniBeta :: !GLint,
         shadeCubeUniProjModvMatrix :: !GLint,
         shadeCubeUniNormalMatrix :: !GLint,
         shadeCubeUniRefDir :: !GLint,
@@ -59,6 +60,7 @@ loadShadeCube = do
                              [  (tex0, "u_tex") ]
 
     uAlpha <- getUniformLocation prg "u_alpha"
+    uBeta <- getUniformLocation prg "u_beta"
     uProjModvMatrix <- getUniformLocation prg "u_projmodv_matrix"
     uNormalMatrix <- getUniformLocation prg "u_normal_matrix"
     uRefDir <- getUniformLocation prg "u_ref_dir"
@@ -77,6 +79,7 @@ loadShadeCube = do
             {
                 shadeCubePrg = prg,
                 shadeCubeUniAlpha = uAlpha,
+                shadeCubeUniBeta = uBeta,
                 shadeCubeUniProjModvMatrix = uProjModvMatrix,
                 shadeCubeUniNormalMatrix = uNormalMatrix,
                 shadeCubeUniRefDir = uRefDir,

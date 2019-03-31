@@ -85,7 +85,7 @@ outputScreenBegin' gamedata proj2D proj3D modv3D = \s run b -> do
 
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv normal run
+    shadeCube sh 1.0 projmodv normal 0.0 run
 
     -- face names
     drawFaceNamesBegin gamedata projmodv run
@@ -127,7 +127,7 @@ outputScreenMain' gamedata proj2D proj3D modv3D = \s run b -> do
 
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv modv run
+    shadeCube sh 1.0 projmodv modv 1.0 run -- beta == 1.0 => grayscale
 
     -- face names
     drawFaceNames gamedata 1.0 projmodv
@@ -214,7 +214,8 @@ outputScreenAtFace' gamedata proj2D proj3D modv3D s run b = do
     
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv modv run
+    --shadeCube sh 1.0 projmodv modv 0.0 run
+    shadeCube sh 1.0 projmodv modv 1.0 run -- beta == 1.0 => grayscale
 
     -- face names
     let alpha = cameraViewAlpha $ runCamera run
@@ -255,7 +256,7 @@ outputScreenAtFace''' gamedata proj2D proj3D modv3D = \s run b -> do
 
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv modv run
+    shadeCube sh 1.0 projmodv modv 1.0 run -- beta == 1.0 => grayscale
 
     -- face names
     let alpha = cameraViewAlpha $ runCamera run
@@ -295,7 +296,7 @@ outputScreenAToB gamedata proj2D proj3D modv3D s run b = do
 
     -- cube
     let sh = rundataShadeCube $ gamedataRunData gamedata
-    shadeCube sh 1.0 projmodv modv run
+    shadeCube sh 1.0 projmodv modv 0.0 run
 
     -- message path
     let sh = griddataShadePath $ gamedataGridData gamedata

@@ -278,7 +278,7 @@ outputScreenComplete' gamedata proj2D proj3D modv3D = \s lvl run -> do
     -- RunCube
     let sh = rundataShadeCube $ gamedataRunData gamedata
         fadeRun = 0.4 * fade valueRunTicksInv 0.0 (worldTick lvl)
-    shadeCube sh fadeRun projmodv normal run
+    shadeCube sh fadeRun projmodv normal 0.0 run
 
     -- Run Path
     let sh = griddataShadePath $ gamedataGridData gamedata

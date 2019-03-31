@@ -34,8 +34,8 @@ import OpenGL.Helpers
 
 
 
-shadeCube :: ShadeCube -> Float -> Mat4 -> Mat4 -> RunWorld -> IO ()
-shadeCube sh alpha projmodv normal run =  do
+shadeCube :: ShadeCube -> Float -> Mat4 -> Mat4 -> Float -> RunWorld -> IO ()
+shadeCube sh alpha projmodv normal beta run =  do
 
     -- begin --
     glUseProgram $ shadeCubePrg sh
@@ -46,6 +46,10 @@ shadeCube sh alpha projmodv normal run =  do
 
     -- alpha 
     glUniform1f (shadeCubeUniAlpha sh) $ rTF alpha
+
+    -- beta
+    glUniform1f (shadeCubeUniBeta sh) $ rTF beta
+
 
 
     -- draw
