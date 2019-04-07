@@ -67,14 +67,17 @@ typedef struct
 } Finger;
 
 
-static double arrows_tick = 0.0;
-static bool arrows_released = false; 
 static bool a_released = false; 
 static bool b_released = false; 
-static float up = 0.0f;
-static float down = 0.0f;
-static float left = 0.0f;
-static float right = 0.0f;
+static double arrows_tick = 0.0;
+static bool up = false;
+static bool down = false;
+static bool left = false;
+static bool right = false;
+static double arrows_x1 = 0.0;
+static double arrows_y1 = 0.0;
+static bool arrows_released = false; 
+static inline bool is_arrows() { return up || down || left || right; }
                                    
 // locals                          
 static Finger fingers[ GLFW_KEYS_MAX_FINGERS ];
@@ -292,6 +295,7 @@ void glfw_keysBegin()
     // touching on screen in progress
     if ( 0 < fingers_ix )
     {
+        // is a new finger added?
         if ( fingers_peak < fingers_ix )
         {
             fingers_peak = fingers_ix;
@@ -375,18 +379,16 @@ uint glfw_keysTouchHandlePointDrag(double* ticks, float* x0, float* y0, float* x
     // new chance: keyboard key
     if ( fingers_peak == 0 )
     {
+
         // is there a key down?
-        if ( !( up == 0.0f && down == 0.0f && left == 0.0f && right == 0.0f ) )
+        if ( is_arrows() )
         {
             *ticks = tick - arrows_tick;
+            // drag direction
             *x0 = 0.5;
             *y0 = 0.5;
-            *x1 = 0.5 + left + right;
-            *y1 = 0.5 + up + down;
-
-            // save current in order to retrieve drop point
-            //arrows_x1 = *x1;
-            //arrows_y1 = *y1;
+            *x1 = arrows_x1;
+            *y1 = arrows_y1;
 
             return true;
         }
@@ -406,19 +408,28 @@ uint glfw_keysTouchHandlePointDrop(double* ticks, float* x0, float* y0, float* x
         *y1 = peak1_touching_pos.y;
         return true;
     }
-#if 0
+
     // new chance: keyboard key
-    if ( arrows_debounce_tick <= tick )
+    if ( arrows_released )
     {
-        *ticks = peak1_touching_tick - peak1_touched_tick;
+      printf("arrows released\n");
+
+        //*ticks = peak1_touching_tick - peak1_touched_tick;
+        *ticks = tick - arrows_tick;
         *x0 = 0.5f; // FIXME: is this center?? or 0.0?
         *y0 = 0.5f;
         *x1 = arrows_x1;
         *y1 = arrows_y1;
+        
+
+      printf("x1: %f\n", arrows_x1 ); 
+      printf("y1: %f\n", arrows_y1 ); 
+
+        arrows_released = false;
 
         return true;
     }
-#endif
+
     return false;
     
     
@@ -647,27 +658,40 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     // 
     if ( action == GLFW_PRESS )
     {
-        if ( key == KEYBOARD_KEY_UP ) up = -0.5f;
-        if ( key == KEYBOARD_KEY_DOWN ) down = +0.5f;
-        if ( key == KEYBOARD_KEY_LEFT ) left = -0.5f;
-        if ( key == KEYBOARD_KEY_RIGHT ) right = +0.5f;
+        bool was_arrows = is_arrows();
 
-        if ( !(up == 0.0f && down == 0.0f && left == 0.5f && right == 0.5f) )
+        // set direction
+        if ( key == KEYBOARD_KEY_UP ) up = true;
+        if ( key == KEYBOARD_KEY_DOWN ) down = true;
+        if ( key == KEYBOARD_KEY_LEFT ) left = true;
+        if ( key == KEYBOARD_KEY_RIGHT ) right = true;
+
+        arrows_x1 = 0.5 + (left ? -2.0 : 0.0) + (right ? 2.0 : 0.0);
+        arrows_y1 = 0.5 + (up ? -2.0 : 0.0) + (down ? 2.0 : 0.0);
+
+        // was this the first arrow key down?
+        if ( !was_arrows && is_arrows() )
         {
             arrows_tick = tick;
         }
+
     }
 
     if ( action == GLFW_RELEASE )
     {
         if ( key == KEYBOARD_KEY_A )      a_released = true;
         if ( key == KEYBOARD_KEY_B )      b_released = true;
-#if 0
-        if ( up == 0.0f && down == 0.0f && left == 0.5f && right == 0.5f )
+
+        bool was_arrows = is_arrows();
+
+        if ( key == KEYBOARD_KEY_UP ) up = false;
+        if ( key == KEYBOARD_KEY_DOWN ) down = false;
+        if ( key == KEYBOARD_KEY_LEFT ) left = false;
+        if ( key == KEYBOARD_KEY_RIGHT ) right = false;
+
+        if ( was_arrows && !is_arrows() )
         {
-            arrows_debounce_tick = tick;
-            arrows_released = false;
+            arrows_released = true;
         }
-#endif
     }
 }
