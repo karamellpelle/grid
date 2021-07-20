@@ -1,8 +1,8 @@
-I had an idea of making a computer game in Haskell on one of these fancy new touch platforms. And there was a GHC compiler for iOS, so I started writing this game. It is actually working pretty well, but it needs more work, especially if it should be released as a game, and I don't have enough time to use on this project anymore. Unfornately, the Apple world is not an open world. However, it should be easy to port this to other platforms too, I actually started writing this code on Linux :) It is licensed under GPLv3.
+In 2012 I had an idea of making a computer game in Haskell on one of these fancy new touch platforms. And there was a GHC compiler for iOS, so I started writing this game. Unfornately, the Apple world is not an open world. However, it should be possible to port this program to other platforms too; I actually started writing this code on Linux :) The code is actually working pretty well, but it needs more work if it should be considered a game because the gamplay is really boring, ugly and not user friendly (and I don't have this time). It is licensed under GPLv3.
 
 Update 2019
 ----------------
-In 2018 I was able to build this game on Linux (at least Arch Linux) and started porting the rest. Much has been done, but more work needs to be done. To build and run:
+In 2018 I was able to port and build this game on Linux (at least Arch Linux with `libglvnd`). Use the mouse with left mouse button to simulate finger gestures. Much has been done, but more work needs to be done. To build and run (using _haskellstack_):
 
     $ cd GLFW
     $ stack build
@@ -51,7 +51,7 @@ RunWorld has a Scene object describing how the game should be presented to the p
 On iOS, there is a GameCenter API that can post high scores and achievements. This has been implemented on the Haskell side, but the Objective-C side has not been tested and is commented out. The game creates and use dynamic data for each player on a iOS device. 
 
 ### Easter Eggs ###
-Easter eggs are fun! The Konami sequence left -> left -> right -> right -> up -> down -> up -> down -> B -> A should do some fun. 
+Easter eggs are fun! The Konami sequence left -> left -> right -> right -> up -> down -> up -> down -> B -> A should do some fun (A is short press with finger, B is long press) 
 
 
 Building on iOS
